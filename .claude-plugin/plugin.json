@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "fin3000",
+  "displayName": "Fin3000",
+  "version": "0.1.0",
+  "description": "Buchhaltungs-Workflows für Freelancer, Selbstständige und GbRs mit dem Fin3000-MCP-Server.",
+  "author": {
+    "name": "Ideal3000 GmbH",
+    "url": "https://fin3000.com"
+  },
+  "homepage": "https://fin3000.com/ki-assistent/",
+  "keywords": [
+    "buchhaltung",
+    "freelancer",
+    "selbststaendige",
+    "gbr",
+    "rechnungen",
+    "offene-posten",
+    "bwa",
+    "monatsabschluss"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

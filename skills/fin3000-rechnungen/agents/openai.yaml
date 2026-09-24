@@ -1,0 +1,13 @@
+interface:
+  display_name: "Rechnungen und offene Posten"
+  short_description: "Rechnungsentwürfe und Forderungen prüfen"
+  default_prompt: "Nutze $fin3000-rechnungen, um offene Rechnungen zu prüfen oder einen Rechnungsentwurf vorzubereiten."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP-Server für Kunden und Rechnungsentwürfe"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

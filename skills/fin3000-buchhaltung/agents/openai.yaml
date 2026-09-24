@@ -1,0 +1,13 @@
+interface:
+  display_name: "Buchhaltung für Freelancer und GbR"
+  short_description: "BWA und offene Posten je Firma auswerten"
+  default_prompt: "Nutze $fin3000-buchhaltung, um meine Freelancer-Firma und GbR getrennt auszuwerten."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP-Server für private Buchhaltungsdaten"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

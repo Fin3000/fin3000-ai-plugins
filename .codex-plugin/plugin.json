@@ -1,0 +1,40 @@
+{
+  "name": "fin3000",
+  "version": "0.1.0",
+  "description": "Buchhaltungs-Workflows für Freelancer, Selbstständige und GbRs mit dem Fin3000-MCP-Server.",
+  "author": {
+    "name": "Ideal3000 GmbH",
+    "url": "https://fin3000.com"
+  },
+  "homepage": "https://fin3000.com/mcp/",
+  "keywords": [
+    "buchhaltung",
+    "freelancer",
+    "selbststaendige",
+    "gbr",
+    "rechnungen",
+    "offene-posten",
+    "bwa",
+    "monatsabschluss"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Fin3000",
+    "shortDescription": "Buchhaltung, Rechnungen und BWA mit Fin3000",
+    "longDescription": "Fin3000 verbindet ChatGPT und Codex per OAuth mit der Buchhaltung. Die enthaltenen Workflows helfen Freelancern, Selbstständigen und GbRs dabei, offene Rechnungen zu prüfen, Rechnungsentwürfe kontrolliert vorzubereiten, BWA-Zahlen auszuwerten und den Monatsabschluss vorzubereiten.",
+    "developerName": "Ideal3000 GmbH",
+    "category": "Finance",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://fin3000.com/mcp/",
+    "privacyPolicyURL": "https://fin3000.com/datenschutz/",
+    "termsOfServiceURL": "https://fin3000.com/agb/",
+    "defaultPrompt": [
+      "Prüfe offene Rechnungen und überfällige Forderungen in meiner Freelancer-Buchhaltung.",
+      "Erstelle einen Rechnungsentwurf für einen Kunden und zeige mir vor dem Speichern die Vorschau.",
+      "Analysiere die BWA meiner GbR und erkläre Einnahmen, Ausgaben und Gewinn verständlich."
+    ]
+  }
+}
