@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "fin3000": {
+      "type": "http",
+      "url": "https://api.fin3000.com/mcp"
+    }
+  }
+}
