@@ -50,3 +50,25 @@ metadata belonging only to the other platform.
 
 Uploading, marketplace publication and legal acceptance are separate manual
 release steps and are not performed by the build script.
+
+## Install in Claude Code
+
+The repository is also a Claude Code marketplace. Add it once and install the
+Fin3000 plugin:
+
+```bash
+claude plugin marketplace add Fin3000/fin3000-ai-plugins
+claude plugin install fin3000@fin3000-plugins
+```
+
+Restart Claude Code or run `/reload-plugins` in an existing session. The three
+Fin3000 skills are then available under the `fin3000` namespace. The first MCP
+tool call opens the normal Fin3000 OAuth flow; no API token or client secret is
+stored in this repository.
+
+Claude Code 2.1.275 or newer can add the marketplace and open the install flow
+in one command:
+
+```text
+/plugin install fin3000 --marketplace Fin3000/fin3000-ai-plugins
+```

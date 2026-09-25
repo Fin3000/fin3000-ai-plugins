@@ -130,6 +130,39 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             },
         )
 
+    def test_claude_marketplace_installs_the_repository_root_plugin(self):
+        manifest = json.loads(
+            (PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        marketplace = json.loads(
+            (PLUGIN_SOURCE / ".claude-plugin/marketplace.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(marketplace["name"], "fin3000-plugins")
+        self.assertEqual(marketplace["owner"]["name"], "Ideal3000 GmbH")
+        self.assertEqual(len(marketplace["plugins"]), 1)
+        self.assertEqual(
+            marketplace["plugins"][0],
+            {
+                "name": manifest["name"],
+                "source": "./",
+                "description": (
+                    "Buchhaltungs-Workflows für Freelancer, Selbstständige "
+                    "und GbRs mit dem OAuth-geschützten Fin3000-MCP-Server."
+                ),
+                "category": "Finance",
+                "tags": ["accounting", "invoices", "finance", "germany"],
+            },
+        )
+        self.assertEqual(
+            manifest["repository"],
+            "https://github.com/Fin3000/fin3000-ai-plugins",
+        )
+
     def test_missing_openai_companion_metadata_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "fin3000"
