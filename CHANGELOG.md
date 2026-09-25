@@ -6,6 +6,8 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ### Added
 
+- A public Claude Code marketplace catalog with copy-paste installation from
+  `Fin3000/fin3000-ai-plugins`.
 - A shared, host-neutral set of three Fin3000 accounting skills for
   OpenAI/Codex and Claude Code.
 - Separate platform manifests and a secret-free Claude remote-MCP
