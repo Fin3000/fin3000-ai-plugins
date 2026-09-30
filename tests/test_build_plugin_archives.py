@@ -60,6 +60,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
         self.assertEqual(
             openai_members,
             {
+                "fin3000/LICENSE",
                 "fin3000/.codex-plugin/plugin.json",
                 *expected_skills,
                 *{
@@ -71,6 +72,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
         self.assertEqual(
             claude_members,
             {
+                "fin3000/LICENSE",
                 "fin3000/.claude-plugin/plugin.json",
                 "fin3000/.mcp.json",
                 *expected_skills,
@@ -172,6 +174,17 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
 
             with self.assertRaisesRegex(
                 packager.PackagingError, "OpenAI agent metadata is missing"
+            ):
+                packager.build_archives(source, Path(directory) / "output")
+
+    def test_missing_license_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "fin3000"
+            shutil.copytree(PLUGIN_SOURCE, source)
+            (source / "LICENSE").unlink()
+
+            with self.assertRaisesRegex(
+                packager.PackagingError, "required license is missing"
             ):
                 packager.build_archives(source, Path(directory) / "output")
 
