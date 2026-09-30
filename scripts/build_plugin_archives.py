@@ -53,9 +53,13 @@ def load_json(path: Path) -> dict[str, object]:
 
 
 def validate_source(source: Path) -> tuple[Path, ...]:
+    license_file = source / "LICENSE"
     codex_manifest = source / ".codex-plugin/plugin.json"
     claude_manifest = source / ".claude-plugin/plugin.json"
     mcp_config = source / ".mcp.json"
+    if not license_file.is_file():
+        raise PackagingError(f"required license is missing: {license_file}")
+
     codex_data = load_json(codex_manifest)
     claude_data = load_json(claude_manifest)
     mcp_data = load_json(mcp_config)
@@ -111,12 +115,22 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
         "openai": ArchiveSpec(
             target="openai",
             filename="fin3000-plugin-source.zip",
-            files=(Path(".codex-plugin/plugin.json"), *skills, *openai_agents),
+            files=(
+                Path("LICENSE"),
+                Path(".codex-plugin/plugin.json"),
+                *skills,
+                *openai_agents,
+            ),
         ),
         "claude": ArchiveSpec(
             target="claude",
             filename="fin3000-claude-plugin-source.zip",
-            files=(Path(".claude-plugin/plugin.json"), Path(".mcp.json"), *skills),
+            files=(
+                Path("LICENSE"),
+                Path(".claude-plugin/plugin.json"),
+                Path(".mcp.json"),
+                *skills,
+            ),
         ),
     }
 
