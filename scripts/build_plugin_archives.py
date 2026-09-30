@@ -56,9 +56,12 @@ def validate_source(source: Path) -> tuple[Path, ...]:
     license_file = source / "LICENSE"
     codex_manifest = source / ".codex-plugin/plugin.json"
     claude_manifest = source / ".claude-plugin/plugin.json"
+    claude_icon = source / ".claude-plugin/icon.svg"
     mcp_config = source / ".mcp.json"
     if not license_file.is_file():
         raise PackagingError(f"required license is missing: {license_file}")
+    if not claude_icon.is_file():
+        raise PackagingError(f"required Claude icon is missing: {claude_icon}")
 
     codex_data = load_json(codex_manifest)
     claude_data = load_json(claude_manifest)
@@ -70,6 +73,11 @@ def validate_source(source: Path) -> tuple[Path, ...]:
                 f"manifest {field} differs: "
                 f"{codex_data.get(field)!r} != {claude_data.get(field)!r}"
             )
+
+    if claude_data.get("privacyPolicyUrl") != "https://fin3000.com/datenschutz/":
+        raise PackagingError(
+            "Claude manifest must link to the public Fin3000 privacy policy"
+        )
 
     expected_mcp = {
         "mcpServers": {
@@ -128,6 +136,7 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
             files=(
                 Path("LICENSE"),
                 Path(".claude-plugin/plugin.json"),
+                Path(".claude-plugin/icon.svg"),
                 Path(".mcp.json"),
                 *skills,
             ),

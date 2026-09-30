@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 import zipfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -73,6 +74,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             claude_members,
             {
                 "fin3000/LICENSE",
+                "fin3000/.claude-plugin/icon.svg",
                 "fin3000/.claude-plugin/plugin.json",
                 "fin3000/.mcp.json",
                 *expected_skills,
@@ -164,6 +166,15 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             manifest["repository"],
             "https://github.com/Fin3000/fin3000-ai-plugins",
         )
+        self.assertEqual(
+            manifest["privacyPolicyUrl"],
+            "https://fin3000.com/datenschutz/",
+        )
+
+        icon = ET.parse(PLUGIN_SOURCE / ".claude-plugin/icon.svg").getroot()
+        self.assertEqual(icon.attrib["width"], "256")
+        self.assertEqual(icon.attrib["height"], "256")
+        self.assertEqual(icon.attrib["viewBox"], "0 0 96 96")
 
     def test_missing_openai_companion_metadata_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
