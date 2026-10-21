@@ -1,7 +1,7 @@
 # Fin3000 AI Plugins
 
 This repository contains the distribution source for the Fin3000 plugins for
-OpenAI/Codex and Claude Code. Both packages use the same three Fin3000 skills
+OpenAI/Codex and Claude Code. Both packages use the same four Fin3000 skills
 and connect to the existing OAuth-protected remote MCP endpoint:
 
 ```text
@@ -43,9 +43,9 @@ hashes. It fails closed if a skill is missing, manifest names or versions
 differ, or the Claude MCP configuration contains anything other than the
 Fin3000 HTTPS endpoint.
 
-The OpenAI archive contains the Codex manifest, all three skills and their
+The OpenAI archive contains the Codex manifest, all four skills and their
 OpenAI agent metadata. The Claude archive contains the Claude manifest,
-`.mcp.json` and the same three skill files. Neither archive contains secrets or
+`.mcp.json` and the same four skill files. Neither archive contains secrets or
 metadata belonging only to the other platform.
 
 Uploading, marketplace publication and legal acceptance are separate manual
@@ -61,7 +61,7 @@ claude plugin marketplace add Fin3000/fin3000-ai-plugins
 claude plugin install fin3000@fin3000-plugins
 ```
 
-Restart Claude Code or run `/reload-plugins` in an existing session. The three
+Restart Claude Code or run `/reload-plugins` in an existing session. The four
 Fin3000 skills are then available under the `fin3000` namespace. The first MCP
 tool call opens the normal Fin3000 OAuth flow; no API token or client secret is
 stored in this repository.
@@ -72,3 +72,7 @@ in one command:
 ```text
 /plugin install fin3000 --marketplace Fin3000/fin3000-ai-plugins
 ```
+
+## Delegated bookkeeping
+
+`fin3000-buchhaltung-vervollstaendigen` coordinates receipt acquisition, dated client accounts, native posting/payment commands, durable recovery and native open tasks. Existing valid defaults and matching saved authority avoid repeated approval; new authority still requires one explicit decision. Tax submission and payment initiation remain separate. The workflow uses capability discovery and reports unavailable server features honestly.

@@ -3,6 +3,10 @@
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
+### Added
+
+- Shared fourth workflow for delegated bookkeeping completion, including durable authority/recovery, native source intake and source-verified task upkeep.
+
 
 ### Added
 

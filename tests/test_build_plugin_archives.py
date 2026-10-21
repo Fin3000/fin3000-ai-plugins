@@ -16,6 +16,7 @@ SCRIPTS = REPOSITORY / "scripts"
 PLUGIN_SOURCE = REPOSITORY
 SKILLS = (
     "fin3000-buchhaltung",
+    "fin3000-buchhaltung-vervollstaendigen",
     "fin3000-monatsabschluss",
     "fin3000-rechnungen",
 )
@@ -81,7 +82,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             },
         )
 
-    def test_both_archives_copy_the_same_three_skill_sources(self):
+    def test_both_archives_copy_the_same_four_skill_sources(self):
         with tempfile.TemporaryDirectory() as directory:
             results = {
                 result.target: result for result in self.build(Path(directory))
