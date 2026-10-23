@@ -53,6 +53,24 @@ def load_json(path: Path) -> dict[str, object]:
     return data
 
 
+def claude_listing_icon(source: Path, claude_data: dict[str, object]) -> Path:
+    """Return the manifest's directory icon as a source-relative path.
+
+    The Anthropic directory reads `icon` from the packaged manifest, so the
+    referenced file must exist inside the plugin and ship in the archive.
+    """
+    icon = claude_data.get("icon")
+    if not isinstance(icon, str) or not icon.startswith("./"):
+        raise PackagingError("Claude manifest must reference a packaged directory icon")
+    relative = Path(icon[2:])
+    resolved = (source / relative).resolve()
+    if source.resolve() not in resolved.parents or not resolved.is_file():
+        raise PackagingError(f"Claude directory icon is missing: {source / relative}")
+    if resolved.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
+        raise PackagingError(f"Claude directory icon must be a PNG: {source / relative}")
+    return relative
+
+
 def validate_source(source: Path) -> tuple[Path, ...]:
     license_file = source / "LICENSE"
     codex_manifest = source / ".codex-plugin/plugin.json"
@@ -67,6 +85,7 @@ def validate_source(source: Path) -> tuple[Path, ...]:
     codex_data = load_json(codex_manifest)
     claude_data = load_json(claude_manifest)
     mcp_data = load_json(mcp_config)
+    claude_listing_icon(source, claude_data)
 
     for field in ("name", "version"):
         if codex_data.get(field) != claude_data.get(field):
@@ -117,6 +136,9 @@ def validate_source(source: Path) -> tuple[Path, ...]:
 
 def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
     skills = validate_source(source)
+    listing_icon = claude_listing_icon(
+        source, load_json(source / ".claude-plugin/plugin.json")
+    )
     openai_agents = tuple(
         Path("skills") / name / "agents/openai.yaml" for name in EXPECTED_SKILLS
     )
@@ -138,6 +160,7 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
                 Path("LICENSE"),
                 Path(".claude-plugin/plugin.json"),
                 Path(".claude-plugin/icon.svg"),
+                listing_icon,
                 Path(".mcp.json"),
                 *skills,
             ),

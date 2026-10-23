@@ -1,9 +1,9 @@
 ---
 name: fin3000-monatsabschluss
-description: Bereite den Monatsabschluss in Fin3000 vor, indem du Eingangsrechnungen, unkontierte Banktransaktionen, Journalbuchungen, offene Posten, UStVA-Status und BWA für einen Zeitraum prüfst; nutze den Skill für eine Abschluss-Checkliste, nicht zum Festschreiben oder Übermitteln.
+description: Bereite den Monatsabschluss in Fin3000 vor (nur prüfen) - mit der nativen Buchhaltungsprüfung, offenen Posten, UStVA-Status und vorläufiger BWA für eine Firma und einen Monat; nutze den Skill für eine Abschluss-Checkliste, nicht zum Erledigen, Festschreiben oder Übermitteln. Zum Erledigen dient fin3000-buchhaltung-vervollstaendigen.
 ---
 
-# Fin3000 Monatsabschluss
+# Fin3000 Monatsabschluss vorbereiten (nur prüfen)
 
 Erstelle eine lesende, nachvollziehbare Checkliste zur Vorbereitung eines
 Monatsabschlusses. Der Skill schließt keine Periode und nimmt keine
@@ -17,10 +17,13 @@ Steuerübermittlung vor.
 2. Verwende für alle Aufrufe denselben vollständigen ISO-Zeitraum vom ersten
    bis zum letzten Kalendertag des Monats.
 3. Prüfe nur die für den Auftrag verfügbaren Bereiche:
-   - `search_incoming_invoices` für Eingangsrechnungen im Zeitraum;
-   - `search_transactions` mit `booking_status="unbooked"` für die offene,
-     geschäftliche und technisch buchbare Transaktions-Worklist;
-   - `search_journal_entries` für vorhandene Buchungen;
+   - `get_bookkeeping_status` und danach `check_bookkeeping` für dieselbe Firma
+     und denselben Zeitraum. Das ist die native Prüfung derselben Befunde, die
+     `fin3000-buchhaltung-vervollstaendigen` abarbeitet; folge jedem Cursor und
+     starte bei `check_stale` neu. Null offene Zeilen sind kein Beleg für
+     Vollständigkeit, solange Abdeckungsgrenzen gemeldet werden;
+   - `search_incoming_invoices`, `search_transactions` und
+     `search_journal_entries` nur, um einzelne Befunde zu belegen;
    - `list_open_items` für offene Forderungen und, ohne falschen BU-Bezug,
      Verbindlichkeiten;
    - `get_vat_return_status` für den vorhandenen UStVA-/ELSTER-Status;
@@ -37,14 +40,28 @@ Steuerübermittlung vor.
 
 ## Grenzen
 
-- Dieser Workflow ist standardmäßig vollständig lesend. Rufe
-  `categorize_transaction`, `create_client` und `create_invoice_draft` nicht
-  als Teil des Monatsabschluss-Checks auf.
-- Transaktionen, Eingangsrechnungen und Journaldaten besitzen in den
-  vorhandenen MCP-Werkzeugen keinen frei wählbaren BU-Filter. Beschreibe solche
-  Ergebnisse als kontoweit und ordne sie keiner Firma erfunden zu.
+- Dieser Workflow ist vollständig lesend. Rufe ausschließlich Werkzeuge mit
+  `readOnlyHint=true` auf. Will der Nutzer die gefundenen Punkte erledigen,
+  wechsle ausdrücklich zu `fin3000-buchhaltung-vervollstaendigen`.
+- Wo ein Werkzeug keinen Firmenfilter bietet, beschreibe das Ergebnis als
+  kontoweit und ordne es keiner Firma erfunden zu.
 - `unbooked` ist der MCP-Wert; verwende nicht den REST-Begriff
   `needs_booking`.
 - Ein Statusabruf übermittelt keine UStVA. Behaupte niemals ELSTER-/DATEV-
   Versand, Festschreibung, Periodenabschluss oder steuerliche Prüfung.
 - Fehlende Daten sind kein Beleg dafür, dass der Sachverhalt erledigt ist.
+
+## Wenn etwas nicht klappt
+
+- **Nicht verbunden oder Anmeldung abgelaufen:** Bitte den Nutzer, Fin3000 im
+  Host neu zu verbinden (in Claude „Verbinden“ bzw. `/mcp` → Authenticate).
+  Nichts raten, nichts aus alten Antworten übernehmen.
+- **Werkzeug fehlt in der Liste:** Der Server oder das Plugin ist älter als
+  dieser Skill. Plugin und Verbindung neu laden lassen. Ein fehlendes Werkzeug
+  ist kein Hinweis auf ein fehlendes Abo und kein Grund, ein anderes
+  Schreibwerkzeug zu verwenden.
+- **`feature_inactive`:** Der KI-Assistent ist im Fin3000-Konto ausgeschaltet.
+  Der Admin schaltet ihn unter Einstellungen → Funktionen ein
+  (https://app.fin3000.com/features).
+- **Keine Berechtigung:** Das Konto darf diesen Bereich nicht sehen. Den Admin
+  des Fin3000-Kontos fragen; keine Ersatzdaten liefern.

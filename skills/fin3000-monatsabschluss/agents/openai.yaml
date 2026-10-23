@@ -1,5 +1,5 @@
 interface:
-  display_name: "Monatsabschluss vorbereiten"
+  display_name: "Monatsabschluss vorbereiten (nur prüfen)"
   short_description: "Belege und Buchungen zum Monatsende prüfen"
   default_prompt: "Nutze $fin3000-monatsabschluss, um meinen Monatsabschluss in Fin3000 vorzubereiten."
 dependencies:

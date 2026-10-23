@@ -143,3 +143,18 @@ keine vollständige Buchhaltung. Nur bei nachgewiesener vollständiger Abdeckung
 und ohne offene relevante Befunde „für den geprüften Umfang vollständig“ sagen.
 Keine pauschale steuerliche Richtigkeitszusage. Finanzamt-/ELSTER-Übermittlung,
 Zahlungsauslösung und Festschreibung bleiben außerhalb dieses Workflows.
+
+## Wenn etwas nicht klappt
+
+- **Nicht verbunden oder Anmeldung abgelaufen:** Bitte den Nutzer, Fin3000 im
+  Host neu zu verbinden (in Claude „Verbinden“ bzw. `/mcp` → Authenticate).
+  Nichts raten, nichts aus alten Antworten übernehmen.
+- **Werkzeug fehlt in der Liste:** Der Server oder das Plugin ist älter als
+  dieser Skill. Plugin und Verbindung neu laden lassen. Ein fehlendes Werkzeug
+  ist kein Hinweis auf ein fehlendes Abo und kein Grund, ein anderes
+  Schreibwerkzeug zu verwenden.
+- **`feature_inactive`:** Der KI-Assistent ist im Fin3000-Konto ausgeschaltet.
+  Der Admin schaltet ihn unter Einstellungen → Funktionen ein
+  (https://app.fin3000.com/features).
+- **Keine Berechtigung:** Das Konto darf diesen Bereich nicht sehen. Den Admin
+  des Fin3000-Kontos fragen; keine Ersatzdaten liefern.

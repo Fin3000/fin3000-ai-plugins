@@ -1,7 +1,7 @@
 {
   "name": "fin3000",
-  "version": "0.1.0",
-  "description": "Buchhaltung analysieren und vervollständigen: Belege, Kontierung, autorisierte Buchungen und offene Aufgaben mit Fin3000.",
+  "version": "0.2.0",
+  "description": "Buchhaltung für Freelancer, Selbstständige und GbR: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
   "author": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
@@ -9,13 +9,18 @@
   "homepage": "https://fin3000.com/mcp/",
   "keywords": [
     "buchhaltung",
-    "freelancer",
-    "selbststaendige",
-    "gbr",
+    "belege",
     "rechnungen",
+    "buchen",
+    "kontierung",
     "offene-posten",
     "bwa",
-    "monatsabschluss"
+    "ustva",
+    "datev",
+    "monatsabschluss",
+    "freelancer",
+    "selbststaendige",
+    "gbr"
   ],
   "skills": "./skills/",
   "interface": {
