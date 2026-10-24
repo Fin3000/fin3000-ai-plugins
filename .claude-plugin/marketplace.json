@@ -1,6 +1,6 @@
 {
   "name": "fin3000-plugins",
-  "description": "Fin3000 plugins for accounting workflows in Claude Code.",
+  "description": "Fin3000 für Claude: Buchhaltung, Belege und Rechnungen für Freelancer, Selbstständige und GbR in Deutschland.",
   "owner": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
@@ -9,13 +9,15 @@
     {
       "name": "fin3000",
       "source": "./",
-      "description": "Buchhaltungs-Workflows für Freelancer, Selbstständige und GbRs mit dem OAuth-geschützten Fin3000-MCP-Server.",
+      "description": "Buchhaltung für Freelancer, Selbstständige und GbR: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
       "category": "Finance",
       "tags": [
-        "accounting",
-        "invoices",
-        "finance",
-        "germany"
+        "buchhaltung",
+        "belege",
+        "rechnungen",
+        "ustva",
+        "datev",
+        "deutschland"
       ]
     }
   ]

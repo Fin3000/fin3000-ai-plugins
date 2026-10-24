@@ -34,8 +34,12 @@ Bestätigungsablauf für Stammdaten und Rechnungsentwürfe aus.
    Business Unit mit `get_context` auf. Frage bei fehlenden oder mehrdeutigen
    Positionen, Mengen oder Preisen nach, bevor du `create_invoice_draft`
    aufrufst.
-5. Wenn Kunde und Entwurf neu angelegt werden sollen, behandle sie als zwei
-   getrennte Schreibvorgänge mit zwei Vorschauen und zwei Bestätigungen.
+5. Soll für einen neuen Kunden direkt eine Rechnung entstehen, übergib den
+   Kunden als `new_customer` mit vollständiger Rechnungsadresse an
+   `create_invoice_draft`. Fin3000 zeigt Kunde und Entwurf in **einer**
+   Vorschau und speichert beides nach **einer** Bestätigung atomar. Nutze
+   `create_client` nur, wenn ausschließlich ein Kunde angelegt werden soll.
+   Bei mehreren Adressen eines Kunden `billing_address_id` wählen, nie raten.
 6. Melde nach Erfolg die erzeugte ID, den Status `DRAFT`, die betroffene
    Business Unit und den Fin3000-Link. Wiederhole einen bestätigten Aufruf nicht
    eigenmächtig.
@@ -45,7 +49,24 @@ Bestätigungsablauf für Stammdaten und Rechnungsentwürfe aus.
 - Fin3000 kann über diesen Workflow nur einen Rechnungsentwurf anlegen. Es kann
   ihn nicht finalisieren, festschreiben, bezahlen, versenden oder öffentlich
   bereitstellen.
-- Keine Sammelanlagen und keine stillen Folgeschreibvorgänge.
+- Keine Sammelanlagen und keine stillen Folgeschreibvorgänge. Buchen,
+  Zahlungen ausgleichen und Belege zuordnen gehören zu
+  `fin3000-buchhaltung-vervollstaendigen`.
 - Eine ursprüngliche Bitte wie „Erstelle eine Rechnung“ ist keine Bestätigung
   der anschließend erzeugten Vorschau.
 - Erfinde keine Kunden-ID, Rechnungsposition, Steuerangabe oder Zahlung.
+
+## Wenn etwas nicht klappt
+
+- **Nicht verbunden oder Anmeldung abgelaufen:** Bitte den Nutzer, Fin3000 im
+  Host neu zu verbinden (in Claude „Verbinden“ bzw. `/mcp` → Authenticate).
+  Nichts raten, nichts aus alten Antworten übernehmen.
+- **Werkzeug fehlt in der Liste:** Der Server oder das Plugin ist älter als
+  dieser Skill. Plugin und Verbindung neu laden lassen. Ein fehlendes Werkzeug
+  ist kein Hinweis auf ein fehlendes Abo und kein Grund, ein anderes
+  Schreibwerkzeug zu verwenden.
+- **`feature_inactive`:** Der KI-Assistent ist im Fin3000-Konto ausgeschaltet.
+  Der Admin schaltet ihn unter Einstellungen → Funktionen ein
+  (https://app.fin3000.com/features).
+- **Keine Berechtigung:** Das Konto darf diesen Bereich nicht sehen. Den Admin
+  des Fin3000-Kontos fragen; keine Ersatzdaten liefern.

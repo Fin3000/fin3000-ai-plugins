@@ -22,7 +22,11 @@ Fin3000-Daten des verbundenen Kontos.
      Ausgangsbelege;
    - `search_incoming_invoices` für Eingangsrechnungen;
    - `search_transactions` für Bank- und Kassenbewegungen;
-   - `search_journal_entries` für Buchungen;
+   - `search_journal_entries` für Buchungen und `get_booking_context` für die
+     Details einzelner Buchungen oder Transaktionen;
+   - `search_clients`, `get_client` und `get_client_account_context` für
+     Kundendaten und deren Kontierungshistorie;
+   - `search_datev_accounts` und `get_datev_account` für Kontenfragen;
    - `get_vat_return_status` nur für den vorhandenen UStVA-/ELSTER-Status.
 4. Übernimm Zeitraum, Währung, Scope und vorläufigen Status aus den Ergebnissen.
    Ein fehlender `year_to_date`-Block ist unbekannt und niemals als null zu
@@ -34,8 +38,10 @@ Fin3000-Daten des verbundenen Kontos.
 
 ## Fachliche Grenzen
 
-- Dieser Skill liest und erklärt. Rufe weder `create_client`,
-  `create_invoice_draft` noch `categorize_transaction` auf.
+- Dieser Skill liest und erklärt. Rufe ausschließlich Werkzeuge auf, die als
+  nur lesend markiert sind (`readOnlyHint=true`). Für Änderungen verweise auf
+  `fin3000-buchhaltung-vervollstaendigen` (Belege, Buchungen, Korrekturen)
+  oder `fin3000-rechnungen` (Kunden, Rechnungsentwürfe).
 - Verbindlichkeiten, Eingangsrechnungen, Transaktionen oder Journalbereiche
   dürfen nicht als BU-genau bezeichnet werden, wenn das jeweilige Tool nur den
   Owner-Scope liefert. Weise den Scope sichtbar aus.
@@ -45,3 +51,18 @@ Fin3000-Daten des verbundenen Kontos.
   oder Festschreibung.
 - Erfinde keine fehlenden Zahlen. Benenne leere, nicht verfügbare und nicht
   berechtigte Ergebnisse unterschiedlich.
+
+## Wenn etwas nicht klappt
+
+- **Nicht verbunden oder Anmeldung abgelaufen:** Bitte den Nutzer, Fin3000 im
+  Host neu zu verbinden (in Claude „Verbinden“ bzw. `/mcp` → Authenticate).
+  Nichts raten, nichts aus alten Antworten übernehmen.
+- **Werkzeug fehlt in der Liste:** Der Server oder das Plugin ist älter als
+  dieser Skill. Plugin und Verbindung neu laden lassen. Ein fehlendes Werkzeug
+  ist kein Hinweis auf ein fehlendes Abo und kein Grund, ein anderes
+  Schreibwerkzeug zu verwenden.
+- **`feature_inactive`:** Der KI-Assistent ist im Fin3000-Konto ausgeschaltet.
+  Der Admin schaltet ihn unter Einstellungen → Funktionen ein
+  (https://app.fin3000.com/features).
+- **Keine Berechtigung:** Das Konto darf diesen Bereich nicht sehen. Den Admin
+  des Fin3000-Kontos fragen; keine Ersatzdaten liefern.

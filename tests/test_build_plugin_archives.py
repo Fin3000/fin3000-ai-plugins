@@ -76,6 +76,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             {
                 "fin3000/LICENSE",
                 "fin3000/.claude-plugin/icon.svg",
+                "fin3000/.claude-plugin/icon.png",
                 "fin3000/.claude-plugin/plugin.json",
                 "fin3000/.mcp.json",
                 *expected_skills,
@@ -155,14 +156,13 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             {
                 "name": manifest["name"],
                 "source": "./",
-                "description": (
-                    "Buchhaltungs-Workflows für Freelancer, Selbstständige "
-                    "und GbRs mit dem OAuth-geschützten Fin3000-MCP-Server."
-                ),
+                "description": manifest["description"],
                 "category": "Finance",
-                "tags": ["accounting", "invoices", "finance", "germany"],
+                "tags": ["buchhaltung", "belege", "rechnungen", "ustva", "datev", "deutschland"],
             },
         )
+        self.assertTrue(manifest["description"].startswith("Buchhaltung"))
+        self.assertTrue(marketplace["description"].startswith("Fin3000 für Claude"))
         self.assertEqual(
             manifest["repository"],
             "https://github.com/Fin3000/fin3000-ai-plugins",
@@ -171,11 +171,44 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             manifest["privacyPolicyUrl"],
             "https://fin3000.com/datenschutz/",
         )
+        for field in ("homepage", "documentationUrl", "supportUrl", "termsOfServiceUrl"):
+            self.assertTrue(manifest[field].startswith("https://fin3000.com/"), field)
 
         icon = ET.parse(PLUGIN_SOURCE / ".claude-plugin/icon.svg").getroot()
         self.assertEqual(icon.attrib["width"], "256")
         self.assertEqual(icon.attrib["height"], "256")
         self.assertEqual(icon.attrib["viewBox"], "0 0 96 96")
+
+    def test_every_manifest_icon_ships_inside_the_claude_archive(self):
+        manifest = json.loads(
+            (PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(encoding="utf-8")
+        )
+        icon_member = "fin3000/" + manifest["icon"].removeprefix("./")
+        with tempfile.TemporaryDirectory() as directory:
+            results = {result.target: result for result in self.build(Path(directory))}
+            with zipfile.ZipFile(results["claude"].path) as archive:
+                data = archive.read(icon_member)
+        self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual(int.from_bytes(data[16:20], "big"), 512)
+        self.assertEqual(int.from_bytes(data[20:24], "big"), 512)
+
+    def test_missing_directory_icon_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "fin3000"
+            shutil.copytree(PLUGIN_SOURCE, source, ignore=shutil.ignore_patterns("dist", "__pycache__"))
+            (source / ".claude-plugin/icon.png").unlink()
+
+            with self.assertRaisesRegex(
+                packager.PackagingError, "Claude directory icon is missing"
+            ):
+                packager.build_archives(source, Path(directory) / "output")
+
+    def test_versions_and_keywords_match_across_plugin_manifests(self):
+        codex = json.loads((PLUGIN_SOURCE / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
+        claude = json.loads((PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
+        self.assertEqual(codex["version"], "0.2.0")
+        self.assertEqual(claude["version"], codex["version"])
+        self.assertEqual(claude["keywords"], codex["keywords"])
 
     def test_missing_openai_companion_metadata_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
