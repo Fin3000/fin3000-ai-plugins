@@ -4,6 +4,12 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-24
+
+### Changed
+
+- Sales copy in manifests, marketplace, README and skill metadata: „Claude macht deine Buchhaltung – du gibst nur frei“, target group now Selbstständige, Freelancer, GbR, UG und GmbH; keywords `ug` and `gmbh` added.
+
 ## [0.2.0] - 2026-10-23
 
 ### Added

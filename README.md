@@ -1,9 +1,18 @@
 # Fin3000 für Claude und Codex
 
-Fin3000 verbindet Claude und Codex per OAuth mit deiner Buchhaltung: Belege
-zuordnen, buchen, Rechnungen schreiben und offene Punkte klären. Für
-Freelancer, Selbstständige und GbR in Deutschland. Jede Änderung zeigt Claude
-dir vorher; Zahlungen, Steuerübermittlung und Rechnungsversand gibt es nicht.
+**Claude macht deine Buchhaltung – du gibst nur frei.** Belege suchen,
+Kontoauszüge abgleichen, Buchungen nachtragen: Fin3000 verbindet Claude und
+Codex per OAuth mit deiner Buchhaltung, gemacht für Selbstständige,
+Freelancer, GbR, UG und GmbH in Deutschland.
+
+Sag einfach „Mach meine Buchhaltung für Oktober“: Claude ordnet Belege den
+Kontobewegungen zu, schlägt die Kontierung nach SKR03 oder SKR04 vor und
+bucht, sobald du zustimmst. Offene Posten, überfällige Kunden, BWA und
+UStVA-Status hast du mit einer Frage im Blick, Rechnungsentwürfe entstehen in
+Sekunden. Jede Änderung zeigt dir Claude vorher; Zahlungen, Rechnungsversand
+und Steuerübermittlung bleiben bei dir. Deine Buchhaltungsdaten liegen
+ausschließlich in deutschen Rechenzentren, mehrere Firmen bleiben sauber
+getrennt, und der DATEV-Export für deine Steuerkanzlei ist eingebaut.
 
 ## Schnellstart
 
