@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "fin3000",
   "displayName": "Fin3000",
-  "version": "0.2.0",
-  "description": "Buchhaltung für Freelancer, Selbstständige und GbR: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
+  "version": "0.2.1",
+  "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
   "author": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
@@ -27,9 +27,11 @@
     "ustva",
     "datev",
     "monatsabschluss",
-    "freelancer",
     "selbststaendige",
-    "gbr"
+    "freelancer",
+    "gbr",
+    "ug",
+    "gmbh"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"

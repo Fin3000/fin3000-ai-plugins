@@ -1,7 +1,7 @@
 {
   "name": "fin3000",
-  "version": "0.2.0",
-  "description": "Buchhaltung für Freelancer, Selbstständige und GbR: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
+  "version": "0.2.1",
+  "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
   "author": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
@@ -18,15 +18,17 @@
     "ustva",
     "datev",
     "monatsabschluss",
-    "freelancer",
     "selbststaendige",
-    "gbr"
+    "freelancer",
+    "gbr",
+    "ug",
+    "gmbh"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Fin3000",
-    "shortDescription": "Buchhaltung, Rechnungen und BWA mit Fin3000",
-    "longDescription": "Fin3000 verbindet ChatGPT und Codex per OAuth mit der Buchhaltung. Die enthaltenen Workflows helfen Freelancern, Selbstständigen und GbRs dabei, offene Rechnungen zu prüfen, Rechnungsentwürfe kontrolliert vorzubereiten, BWA-Zahlen auszuwerten und den Monatsabschluss vorzubereiten. Der Workflow zur Vervollständigung beschafft verfügbare Belege, nutzt bestätigte Standards und Freigaben, prüft native Ergebnisse und pflegt offene Aufgaben.",
+    "shortDescription": "Deine Buchhaltung per KI – du gibst nur frei",
+    "longDescription": "Fin3000 verbindet ChatGPT und Codex per OAuth mit deiner Buchhaltung – gemacht für Selbstständige, Freelancer, GbR, UG und GmbH in Deutschland. Der Assistent ordnet Belege den Kontobewegungen zu, schlägt die Kontierung nach SKR03 oder SKR04 vor und bucht, sobald du zustimmst. Offene Posten, überfällige Kunden, BWA und UStVA-Status hast du mit einer Frage im Blick, Rechnungsentwürfe entstehen in Sekunden. Jede Änderung zeigt vorher eine Vorschau; Zahlungen, Rechnungsversand und Steuerübermittlung bleiben bei dir. Deine Buchhaltungsdaten liegen ausschließlich in deutschen Rechenzentren, mehrere Firmen bleiben sauber getrennt, und der DATEV-Export für deine Steuerkanzlei ist eingebaut.",
     "developerName": "Ideal3000 GmbH",
     "category": "Finance",
     "capabilities": [
@@ -37,10 +39,10 @@
     "privacyPolicyURL": "https://fin3000.com/datenschutz/",
     "termsOfServiceURL": "https://fin3000.com/agb/",
     "defaultPrompt": [
-      "Prüfe offene Rechnungen und überfällige Forderungen in meiner Freelancer-Buchhaltung.",
+      "Welche Kundenrechnungen sind überfällig und wie hoch ist der offene Betrag?",
       "Erstelle einen Rechnungsentwurf für einen Kunden und zeige mir vor dem Speichern die Vorschau.",
-      "Analysiere die BWA meiner GbR und erkläre Einnahmen, Ausgaben und Gewinn verständlich.",
-      "Vervollständige die Buchhaltung meiner ausgewählten Firma für den gewünschten Monat."
+      "Analysiere die BWA meiner Firma und erkläre Einnahmen, Ausgaben und Gewinn verständlich.",
+      "Mach meine Buchhaltung für den letzten Monat: Belege zuordnen und offene Buchungen klären."
     ]
   }
 }

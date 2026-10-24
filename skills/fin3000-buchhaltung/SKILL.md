@@ -1,6 +1,6 @@
 ---
 name: fin3000-buchhaltung
-description: Analysiere die Buchhaltung von Freelancern, Selbstständigen und GbRs in Fin3000, insbesondere BWA, Einnahmen, Ausgaben, Gewinn und offene Posten; nutze den Skill für Finanzüberblicke und Vergleiche, nicht für Monatsabschluss-Checklisten oder das Erstellen von Rechnungen.
+description: Analysiere die Buchhaltung von Selbstständigen, Freelancern, GbR, UG und GmbH in Fin3000, insbesondere BWA, Einnahmen, Ausgaben, Gewinn und offene Posten; nutze den Skill für Finanzüberblicke und Vergleiche, nicht für Monatsabschluss-Checklisten oder das Erstellen von Rechnungen.
 ---
 
 # Fin3000 Buchhaltung
