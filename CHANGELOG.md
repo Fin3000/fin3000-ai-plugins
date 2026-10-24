@@ -6,6 +6,7 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ### Added
 
+- Shared fourth workflow for delegated bookkeeping completion, including durable authority/recovery, native source intake and source-verified task upkeep.
 - A square Fin3000 icon and the public privacy-policy URL required for a
   complete Anthropic Plugin Directory listing.
 - An Apache 2.0 license in the plugin root and both generated source archives

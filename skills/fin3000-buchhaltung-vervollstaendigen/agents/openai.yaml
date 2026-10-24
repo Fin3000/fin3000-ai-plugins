@@ -1,0 +1,13 @@
+interface:
+  display_name: "Buchhaltung vervollständigen"
+  short_description: "Belege, Kontierung, Buchungen und Aufgaben erledigen"
+  default_prompt: "Nutze $fin3000-buchhaltung-vervollstaendigen, um die Buchhaltung meiner ausgewählten Firma für den gewünschten Zeitraum zu vervollständigen."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP mit nativen Buchhaltungsaktionen und Freigaben"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

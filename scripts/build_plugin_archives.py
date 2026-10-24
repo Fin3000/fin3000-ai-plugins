@@ -15,6 +15,7 @@ from pathlib import Path
 ARCHIVE_ROOT = Path("fin3000")
 EXPECTED_SKILLS = (
     "fin3000-buchhaltung",
+    "fin3000-buchhaltung-vervollstaendigen",
     "fin3000-monatsabschluss",
     "fin3000-rechnungen",
 )

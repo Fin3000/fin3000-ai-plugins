@@ -3,7 +3,7 @@
   "name": "fin3000",
   "displayName": "Fin3000",
   "version": "0.1.0",
-  "description": "Buchhaltungs-Workflows für Freelancer, Selbstständige und GbRs mit dem Fin3000-MCP-Server.",
+  "description": "Buchhaltung analysieren und vervollständigen: Belege, Kontierung, autorisierte Buchungen und offene Aufgaben mit Fin3000.",
   "author": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
