@@ -4,6 +4,12 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- Shared bookkeeping instructions inventory existing invoices and published files, distinguish mailbox configuration from firm assignment, and recover native document requests by their original IDs.
+- Preserve source accounting commands, explicit EUR tax evidence, unknown account policy and human clarification tasks throughout completion.
+
+
 ## [0.2.1] - 2026-10-24
 
 ### Changed

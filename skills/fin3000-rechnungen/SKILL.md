@@ -8,6 +8,13 @@ description: Prüfe Kundenrechnungen, Forderungen und offene Posten in Fin3000 o
 Prüfe bestehende Rechnungen oder führe den sicheren Vorschau- und
 Bestätigungsablauf für Stammdaten und Rechnungsentwürfe aus.
 
+Bei einem ausdrücklichen Auftrag zum Erledigen oder Korrigieren verwende
+`fin3000-buchhaltung-vervollstaendigen`. Dessen Revision 1 prüft vorhandene
+Rechnungen und veröffentlichte Dateien vor neuen Uploads. Ein Ownerpostfach ohne
+feste Firmenbindung ist nicht automatisch unkonfiguriert. Fehlende Revision oder
+Werkzeuge im Host als Abdeckungsgrenze nennen; keine Parameter erfinden und
+keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
+
 ## Bestehende Rechnungen prüfen
 
 1. Rufe `get_context` auf und löse die gewünschte Business Unit eindeutig auf.

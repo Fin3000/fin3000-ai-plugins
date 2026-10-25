@@ -12,18 +12,29 @@ Eine Bedienungsanleitung ersetzt keine verfügbare Agentenaktion.
 
 ## Auftrag und Wiederaufnahme
 
-1. Lies `get_context` und `get_capabilities`. Wähle eine vorhandene Business
-   Unit und einen eindeutigen Zeitraum. Frage bei Mehrdeutigkeit gezielt nach;
-   keine Namen, IDs, Geschäftsfälle oder Stichtage erfinden. Mehrere Firmen
-   bleiben getrennte Arbeitsgänge.
-2. Lies `get_bookkeeping_activity`, `get_bookkeeping_authorizations` und
-   `list_bookkeeping_tasks` vollständig, einschließlich aller Folgeseiten.
-   Gespeicherte Aktions-IDs und Belegzustände sind maßgeblich, keine Erinnerung
-   aus einem früheren Chat und kein Tasktitel als Finanzfreigabe.
-3. Starte `get_bookkeeping_status` und `check_bookkeeping` für diesen Scope.
-   Folge jedem Cursor. Bei `check_stale` neu prüfen; ein Teilscan ist kein
-   Abschluss. Unzugeordnete Dokumente und Transaktionen bleiben sichtbar
-   offen, bis ihre Firma anhand eigener Belege geklärt ist.
+1. Lies zuerst `get_context`. Löse Firma und Zeitraum anhand vorhandener IDs
+   auf. Mehrere Firmen bleiben getrennte Arbeitsgänge; fehlende Tatsachen nicht
+   aus Namen oder einer früheren Unterhaltung erraten.
+2. Prüfe `workflow_versions.incoming_invoice_completion == 1`. Lies dann die
+   erste Seite `list_bookkeeping_sources`, `search_incoming_invoices` und
+   `list_bookkeeping_documents`. Gib einen ersten, ausdrücklich unvollständigen
+   Bestandsstand. Bei der Rechnungssuche `date_state=any` und nur mit passender
+   Ownerberechtigung `include_unassigned=true` verwenden. Die Datei-Inventur
+   benötigt `work_order_business_unit_id`, `date_from`, `date_to`; sie enthält
+   veröffentlichte Dateien ohne Rechnungsdatensatz, auch ohne Rechnungsdatum.
+3. Lies anschließend alle Seiten beider Quellarten (`portal`, `money_source`)
+   und beider Inventuren vollständig, bevor du etwas änderst. Eigene Änderungen
+   können Cursor veralten lassen. Bei `check_stale` ohne Cursor neu beginnen;
+   eine leere Seite mit Folgeseite ist kein Ende. Lies `get_capabilities`,
+   `get_bookkeeping_activity`, `get_bookkeeping_authorizations` und
+   `list_bookkeeping_tasks`; erhalte gespeicherte Aktions-IDs und Freigaben.
+4. Starte `get_bookkeeping_status` und `check_bookkeeping` für diesen Scope und
+   folge jedem Cursor. Unbekanntes Datum oder ungeklärte Firma bleiben explizite
+   Klärungsfälle. Tasktitel und Notizen sind keine Finanzfreigabe.
+5. Fehlt Revision 1 oder ein neues Werkzeug, nutze nur tatsächlich angebotene
+   bestehende Leseverträge und benenne die fehlende Inventur/Fortsetzung. Keine
+   neuen Parameter an alte Werkzeuge senden. Ein alter Host oder Server beweist
+   weder ein fehlendes Postfach noch vollständige Buchhaltung.
 
 ## Belege beschaffen
 
@@ -38,13 +49,37 @@ Eine Bedienungsanleitung ersetzt keine verfügbare Agentenaktion.
   Zustimmung. Buchungsfreigaben decken diese Kosten nicht. Erhalte denselben
   Request bei Wiederholung; respektiere Quoten, OAuth-/Ownergrenze und SCA.
   Provider können keinen beliebigen historischen Zeitraum nachliefern.
+- Verarbeite vorhandene veröffentlichte Dateien vor neuen Uploads. Nutze
+  `process_bookkeeping_document` mit der ursprünglichen `file_id`, dem gerade
+  gelesenen `source_fingerprint`, einer stabilen `request_id` und der getrennten
+  `work_order_business_unit_id`. Das erzeugt über den nativen Weg einen
+  Rechnungsdatensatz; es weist noch keine Firma zu und bucht keine Finanzen.
+  Verwende angebotene `classification_paths`: `native_detected` bei vorhandener
+  Rechnungserkennung oder `einvoice_parsed` für den nativen XML/PDF-Parser.
+  `owner_confirmed` setzt eine tatsächliche Antwort zu genau dieser Datei
+  voraus (`owner_classification_answer`: `file_id`, `answer=incoming_invoice`,
+  `confirmation_text`). Keine Antwort aus dem allgemeinen Auftrag erfinden.
+  Eine Rechnung ohne belastbare Klassifikation bleibt als Klärungsfall offen.
+- Beachte `workflow` einschließlich Veröffentlichung, Firma, Beleglinks,
+  Buchungs-/Zahlungsstatus, Format, `canonical_file_id` und `twin_of`. Prüfe
+  native Dublettenhinweise, keine Zwillinge doppelt buchen. Ein bestehender Link
+  beweist keine vollständige Rechnung oder Zahlung; ein Wrapper allein auch nicht.
+- Folge `next_step` und `required_input`. Eine BU-lose Rechnung wird explizit
+  mit `get_incoming_invoice(assignment=unassigned, invoice_id=...)` gelesen.
+  Die ausgewählte Firma des Arbeitsauftrags beweist keine Belegzugehörigkeit.
+  Empfänger und Geschäftskontext klären, dann vorhandene native Zuordnungs-,
+  Buchungs- und Zahlungswege bis zum nachgeprüften Ergebnis ausführen.
 - Bereits vom Nutzer bereitgestellte Dateien können über
   `prepare_bookkeeping_upload` mit stabilen Batch-/Item-IDs hochgeladen werden.
   Übertrage Bytes nur an die zurückgegebenen signierten Uploadziele, danach
   `complete_bookkeeping_upload` und `get_bookkeeping_upload_status`. Kann der
   Host keine Bytes übertragen, benenne diese Grenze und den nativen Uploadweg.
   Keine beliebigen URLs oder Zugangsdaten an Fin3000 senden.
-- Mailabruf verarbeitet ungelesene Eingänge, kein vollständiges Mailarchiv.
+- Lies die tatsächliche `mail_status.address`, Bereitschaft, Einschränkungen
+  und `scope_relation`. Ein konfiguriertes Ownerpostfach ohne feste Firmenbindung
+  (`owner_unassigned`) ist vorhanden; dessen Firmen- und Historienabdeckung ist
+  weiterhin ungeklärt. `configured` und `ready` sind verschiedene Zustände.
+  Mailabruf verarbeitet ungelesene Eingänge, kein vollständiges Mailarchiv.
   Fehlende Provider-/Archivabdeckung ausdrücklich im Ergebnis nennen. Niemals
   fremde Lieferanten ohne eigenen Nutzerauftrag anschreiben.
 
@@ -72,6 +107,14 @@ Eine Bedienungsanleitung ersetzt keine verfügbare Agentenaktion.
    Berücksichtige dessen native Steuer-, Storno- und Zahlungsfolgen. Eine
    initiale Firmenzuordnung ist etwas anderes als die Korrektur einer bereits
    gebuchten Firmenzuordnung; verwende ausschließlich angebotene native Wege.
+
+Eine aufgelöste Steuerrichtlinie bestimmt noch kein sachlich passendes
+Aufwandskonto. Hausrat, private Reise, Software und Plattformmitgliedschaft
+anhand eigener Belege unterscheiden. `usage_policy=null` bleibt unbekannt,
+niemals pauschal `ALLOWED`. Versicherungssteuer ist keine Vorsteuer. Bei
+Fremdwährung ausdrücklich gedruckte EUR-Umsatzsteuer und `tax_source_review`
+prüfen; keine Vorsteuer allein aus dem EUR-Bankbetrag zurückrechnen und keine
+Originalwährung überschreiben. Fehlende native Grundlage als Klärungsfall halten.
 
 ## Ausführen ohne erneute Freigabeschleife
 
@@ -113,6 +156,16 @@ Korrekturweg erhält Stornohistorie, Splits, Teilzahlungen und Sperren.
 
 ## Fehler, Prüfung und Aufgaben
 
+- Bei unklarem Ausgang von `process_bookkeeping_document` zuerst
+  `get_bookkeeping_activity` mit `business_unit_id` gleich der ursprünglichen
+  `work_order_business_unit_id` und derselben
+  `document_request_id` lesen. Ein gespeichertes Ergebnis verwenden; bei
+  unbekanntem Status nur denselben Request mit identischen Argumenten wiederholen.
+  Ein nicht gefundenes Ergebnis beweist nicht, dass keine Wirkung eingetreten ist.
+- Bei `source_command_required` Quelltyp, IDs, native Route und fehlende
+  Voraussetzung verwenden. Geschützte Journalzeilen nicht direkt ändern.
+  `booking_state_changed` nennt Scope/Faktengruppe und den Recoveryweg; vor
+  erneuter Bestätigung Wirkungen vollständig vergleichen.
 - Bei Timeout, Antwortverlust oder `write_outcome_unknown` zuerst
   `get_bookkeeping_activity` mit derselben Operation/Aktions-ID lesen. Falls
   nötig genau diese Aktion erneut ausführen. Kein Erfolg aus einer Aufgabe
