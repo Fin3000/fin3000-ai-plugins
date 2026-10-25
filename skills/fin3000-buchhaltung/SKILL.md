@@ -8,6 +8,13 @@ description: Analysiere die Buchhaltung von Selbstständigen, Freelancern, GbR, 
 Erstelle einen belegbaren, grundsätzlich nur lesenden Finanzüberblick aus den
 Fin3000-Daten des verbundenen Kontos.
 
+Bei einem ausdrücklichen Auftrag zum Erledigen oder Korrigieren verwende
+`fin3000-buchhaltung-vervollstaendigen`. Dessen Revision 1 prüft vorhandene
+Rechnungen und veröffentlichte Dateien vor neuen Uploads. Ein Ownerpostfach ohne
+feste Firmenbindung ist nicht automatisch unkonfiguriert. Fehlende Revision oder
+Werkzeuge im Host als Abdeckungsgrenze nennen; keine Parameter erfinden und
+keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
+
 ## Vorgehen
 
 1. Rufe zuerst `get_context` auf. Verwende ausschließlich die dort gelieferten

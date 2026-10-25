@@ -9,6 +9,13 @@ Erstelle eine lesende, nachvollziehbare Checkliste zur Vorbereitung eines
 Monatsabschlusses. Der Skill schließt keine Periode und nimmt keine
 Steuerübermittlung vor.
 
+Bei einem ausdrücklichen Auftrag zum Erledigen oder Korrigieren verwende
+`fin3000-buchhaltung-vervollstaendigen`. Dessen Revision 1 prüft vorhandene
+Rechnungen und veröffentlichte Dateien vor neuen Uploads. Ein Ownerpostfach ohne
+feste Firmenbindung ist nicht automatisch unkonfiguriert. Fehlende Revision oder
+Werkzeuge im Host als Abdeckungsgrenze nennen; keine Parameter erfinden und
+keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
+
 ## Vorgehen
 
 1. Rufe `get_context` auf. Ermittle den gewünschten Monat und, soweit für das
