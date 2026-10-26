@@ -4,6 +4,8 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+- Document the evidenced §25a individual-margin purchase/draft tools, private VAT boundary and explicit unsupported modes, including the DATEV IST export limitation.
+
 ### Changed
 
 - Shared bookkeeping instructions inventory existing invoices and published files, distinguish mailbox configuration from firm assignment, and recover native document requests by their original IDs.

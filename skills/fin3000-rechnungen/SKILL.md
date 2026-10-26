@@ -51,6 +51,32 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
    Business Unit und den Fin3000-Link. Wiederhole einen bestätigten Aufruf nicht
    eigenmächtig.
 
+## Einzelne Waren nach §25a abrechnen
+
+- Suche vorhandene Ankäufe mit `list_margin_acquisitions` vollständig und lies
+  die passende Grundlage mit `get_margin_acquisition`. Firmenbindung, Original,
+  tatsächlichen EUR-Einkaufspreis, Menge und steuerliche Voraussetzungen prüfen.
+  Produktkosten, Banktexte oder ein fehlender Steuerausweis sind kein Nachweis.
+- Fehlt die Grundlage, nutze `save_margin_acquisition`: Vorschau zeigen und
+  separat bestätigen lassen. EU-Lieferung und Eignung des Verkäufers nur bei
+  ausdrücklich geklärtem Sachverhalt bestätigen. Dies speichert eine Grundlage,
+  keine zusätzliche Aufwands- oder Lagerbuchung.
+- Übergebe an `create_invoice_draft` pro belegter Warenposition ausdrücklich
+  `tax_scheme=MARGIN_25A`, `margin_acquisition_id`, Menge und vollen Verkaufspreis.
+  Der normale Steuerfall/Konto8191 allein reicht nicht. Zeige auch die private
+  Margenberechnung; sie gehört nicht auf die Kundenrechnung. Den Entwurf erst
+  nach separater Bestätigung speichern. Ein leerer Einkaufspreis ist ungeklärt;
+  null Euro nur bei nachgewiesen unentgeltlichem Erwerb.
+- Native Finalisierung erzeugt interne Margensteuer und den gesetzlichen
+  Warenhinweis ohne gesonderten Steuerausweis auf Kunden-PDF/XML. Originalbeleg
+  und Aufwandsbuchung separat vollständig prüfen. MCP finalisiert nicht.
+- Unterstützt ist die belegte Einzeldifferenz für normale Rechnungen und
+  vollständigen nativen Storno. Gesamtdifferenz, Sonderankäufe nach §25aAbs2,
+  Anzahlungen, Teilrückgaben, Skonto, Fremdwährungsankäufe, Nicht-EU-Ausfuhren
+  und Kleinunternehmer sind nicht enthalten. Native Istversteuerung bleibt
+  möglich; DATEV-Export positiver IST-Margen ist noch gesperrt. Keine andere
+  Kontierung verwenden, um diese Grenze zu umgehen.
+
 ## Grenzen
 
 - Fin3000 kann über diesen Workflow nur einen Rechnungsentwurf anlegen. Es kann
