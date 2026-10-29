@@ -39,7 +39,7 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
    an.
 4. Löse für einen Rechnungsentwurf den Kunden mit `search_clients` und die
    Business Unit mit `get_context` auf. Frage bei fehlenden oder mehrdeutigen
-   Positionen, Mengen oder Preisen nach, bevor du `create_invoice_draft`
+   Positionen, Mengen oder Verkaufspreisen nach, bevor du `create_invoice_draft`
    aufrufst.
 5. Soll für einen neuen Kunden direkt eine Rechnung entstehen, übergib den
    Kunden als `new_customer` mit vollständiger Rechnungsadresse an
@@ -51,31 +51,45 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
    Business Unit und den Fin3000-Link. Wiederhole einen bestätigten Aufruf nicht
    eigenmächtig.
 
-## Einzelne Waren nach §25a abrechnen
+## Waren nach §25a (Differenzbesteuerung) abrechnen
 
-- Suche vorhandene Ankäufe mit `list_margin_acquisitions` vollständig und lies
-  die passende Grundlage mit `get_margin_acquisition`. Firmenbindung, Original,
-  tatsächlichen EUR-Einkaufspreis, Menge und steuerliche Voraussetzungen prüfen.
-  Produktkosten, Banktexte oder ein fehlender Steuerausweis sind kein Nachweis.
-- Fehlt die Grundlage, nutze `save_margin_acquisition`: Vorschau zeigen und
-  separat bestätigen lassen. EU-Lieferung und Eignung des Verkäufers nur bei
-  ausdrücklich geklärtem Sachverhalt bestätigen. Dies speichert eine Grundlage,
-  keine zusätzliche Aufwands- oder Lagerbuchung.
-- Übergebe an `create_invoice_draft` pro belegter Warenposition ausdrücklich
-  `tax_scheme=MARGIN_25A`, `margin_acquisition_id`, Menge und vollen Verkaufspreis.
-  Der normale Steuerfall/Konto8191 allein reicht nicht. Zeige auch die private
-  Margenberechnung; sie gehört nicht auf die Kundenrechnung. Den Entwurf erst
-  nach separater Bestätigung speichern. Ein leerer Einkaufspreis ist ungeklärt;
-  null Euro nur bei nachgewiesen unentgeltlichem Erwerb.
-- Native Finalisierung erzeugt interne Margensteuer und den gesetzlichen
-  Warenhinweis ohne gesonderten Steuerausweis auf Kunden-PDF/XML. Originalbeleg
-  und Aufwandsbuchung separat vollständig prüfen. MCP finalisiert nicht.
-- Unterstützt ist die belegte Einzeldifferenz für normale Rechnungen und
-  vollständigen nativen Storno. Gesamtdifferenz, Sonderankäufe nach §25aAbs2,
-  Anzahlungen, Teilrückgaben, Skonto, Fremdwährungsankäufe, Nicht-EU-Ausfuhren
-  und Kleinunternehmer sind nicht enthalten. Native Istversteuerung bleibt
-  möglich; DATEV-Export positiver IST-Margen ist noch gesperrt. Keine andere
-  Kontierung verwenden, um diese Grenze zu umgehen.
+- §25a ist eine Steuerart der Position, kein Konto. Setze an der Warenposition
+  `tax_scheme=MARGIN_25A` und als `unit_price` den vollen Kundenpreis (Endpreis,
+  keine Umsatzsteuer aufschlagen). Hat das Produkt §25a als Steuerart, genügt
+  `product_id`. Übergib nie ein §25a-Konto (z. B. 8191) als `account_id`.
+- Mehr ist nicht nötig. Frage nicht von dir aus nach Einkaufspreis, Ankaufsbeleg,
+  Verkäufer oder Bestätigungen. Ohne Einkaufspreis versteuert Fin3000 den vollen
+  Verkaufspreis; Gebrauchtgegenstand und Kauf von Privatperson gelten als
+  sichtbar gekennzeichnete Annahme.
+- Optional, nur wenn der Nutzer oder ein Beleg es nennt: `unit_purchase_price`
+  (Einkaufspreis je Stück in EUR), `goods_kind` (`USED_GOODS`, `ART`,
+  `COLLECTORS_ANTIQUES`), `acquired_from` (`PRIVATE_SELLER`, `SMALL_BUSINESS`,
+  `MARGIN_RESELLER`, `EXEMPT_SUPPLIER`), `art_flat_rate` (nur bei `ART`).
+  Einkaufspreis nie schätzen und nicht aus Verkaufspreis, Marktwert oder
+  früheren Gesprächen ableiten. `0` nur bei ausdrücklich unentgeltlichem Erwerb.
+- Hat das Produkt Einkaufskosten, übernimmt Fin3000 sie „aus Produkt“ und meldet
+  das. Sagt der Nutzer, der Wert stimmt nicht, übergib den genannten Preis oder
+  `unit_purchase_price: null` (unbekannt).
+- Zwei Wege, beide freiwillig: direkt an der Position (oben) oder über einen
+  gespeicherten Ankauf. Nennt der Nutzer einen Ankauf, such ihn mit
+  `list_margin_acquisitions` und übergib `margin_acquisition_id`; die übrigen
+  §25a-Felder dann weglassen. Einen Ankauf mit `save_margin_acquisition` nur auf
+  ausdrücklichen Wunsch anlegen (eigene Vorschau und Bestätigung).
+  `ready=false` heißt nur, dass freiwillige Angaben fehlen.
+- Zeige die §25a-Zeile der Vorschau und gib Hinweise (`advisories`) in eigenen
+  Worten als Hinweis weiter, nicht als Fehler und nicht als Pflichtfrage.
+  Einkauf, Marge und interne Umsatzsteuer stehen nicht auf der Kundenrechnung.
+  MCP finalisiert nicht.
+- Beispiel: „Kommode, 150 €, §25a“ → `items=[{"title": "Kommode, Eiche, gebraucht",
+  "unit_price": "150.00", "tax_scheme": "MARGIN_25A"}]`, Vorschau zeigen, einmal
+  bestätigen lassen.
+- Nicht enthalten (Fin3000 meldet es): Gesamtdifferenz, Sonderankäufe nach §25a
+  Abs. 2, Anzahlungen und Teilrechnungen, Teilrückgaben, Skonto, Kleinunternehmer.
+  DATEV-Export positiver IST-Margen ist noch gesperrt; native Istversteuerung
+  bleibt möglich. Lieferung außerhalb der EU ergibt einen Hinweis (§ 4 Nr. 1a
+  UStG prüfen). Keine andere Kontierung verwenden, um eine Grenze zu umgehen.
+- Lehnt der Server `MARGIN_25A` ohne `margin_acquisition_id` ab, ist er älter
+  als dieser Skill: nichts erfinden, den Nutzer informieren.
 
 ## Grenzen
 
@@ -98,8 +112,10 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
   dieser Skill. Plugin und Verbindung neu laden lassen. Ein fehlendes Werkzeug
   ist kein Hinweis auf ein fehlendes Abo und kein Grund, ein anderes
   Schreibwerkzeug zu verwenden.
-- **`feature_inactive`:** Der KI-Assistent ist im Fin3000-Konto ausgeschaltet.
-  Der Admin schaltet ihn unter Einstellungen → Funktionen ein
-  (https://app.fin3000.com/features).
+- **`feature_inactive`:** `details.feature` nennt die Funktion. Bei
+  `margin_taxation` ist die Differenzbesteuerung nicht aktiviert: der Admin
+  schaltet „Differenzbesteuerung (§ 25a)“ unter Einstellungen → Funktionen ein
+  (https://app.fin3000.com/features), oder die Position wird auf Wunsch normal
+  besteuert. Sonst ist der KI-Assistent ausgeschaltet (gleicher Ort).
 - **Keine Berechtigung:** Das Konto darf diesen Bereich nicht sehen. Den Admin
   des Fin3000-Kontos fragen; keine Ersatzdaten liefern.

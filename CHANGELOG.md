@@ -4,10 +4,15 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
-- Document the evidenced §25a individual-margin purchase/draft tools, private VAT boundary and explicit unsupported modes, including the DATEV IST export limitation.
+## [0.3.0] - 2026-10-29
+
+Release only after the backend with §25a without a saved purchase is deployed
+(older servers reject `MARGIN_25A` without `margin_acquisition_id`).
 
 ### Changed
 
+- §25a ohne Ankauf und ohne Einkaufspreis: `tax_scheme=MARGIN_25A` mit dem Endpreis genügt; Einkaufspreis (`unit_purchase_price`), Art, Herkunft und gespeicherter Ankauf sind optional, ein Einkaufspreis wird nur übergeben, wenn Nutzer oder Beleg ihn nennen. Two documented ways (position fields or saved purchase), advisories relayed as hints, DATEV IST export limitation kept.
+- `feature_inactive` is distinguished by `details.feature` (`margin_taxation` = Differenzbesteuerung, otherwise the AI assistant).
 - Shared bookkeeping instructions inventory existing invoices and published files, distinguish mailbox configuration from firm assignment, and recover native document requests by their original IDs.
 - Preserve source accounting commands, explicit EUR tax evidence, unknown account policy and human clarification tasks throughout completion.
 
