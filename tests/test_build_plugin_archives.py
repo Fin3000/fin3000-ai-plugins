@@ -126,7 +126,8 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             (PLUGIN_SOURCE / ".mcp.json").read_text(encoding="utf-8")
         )
 
-        self.assertEqual(codex["name"], claude["name"])
+        self.assertEqual(codex["name"], "app-6a992ccc86a881918e84f1ec15f558cf")
+        self.assertEqual(claude["name"], "fin3000")
         self.assertEqual(codex["version"], claude["version"])
         self.assertEqual(
             mcp,

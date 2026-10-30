@@ -4,6 +4,10 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- The OpenAI/Codex manifest name is the existing OpenAI portal app ID (`app-6a992ccc86a881918e84f1ec15f558cf`); the portal rejects packages whose name differs from the published app. The Claude manifest keeps `fin3000`.
+
 ## [1.1.0] - 2026-10-30
 
 Version jumps to 1.1.0 so the package number is unambiguously above the
