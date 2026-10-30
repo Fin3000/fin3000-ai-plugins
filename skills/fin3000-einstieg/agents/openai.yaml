@@ -1,0 +1,13 @@
+interface:
+  display_name: "Mit Fin3000 arbeiten"
+  short_description: "Firmen, Möglichkeiten und Ablauf erklären – der Einstieg"
+  default_prompt: "Nutze $fin3000-einstieg und zeig mir, was du in meinem Fin3000-Konto für mich erledigen kannst."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP-Server für Kontext und Fähigkeiten"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

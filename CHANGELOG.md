@@ -4,6 +4,22 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-30
+
+Version jumps to 1.1.0 so the package number is unambiguously above the
+1.0.0 shown in the ChatGPT plugin listing.
+
+### Added
+
+- `fin3000-einstieg` („Mit Fin3000 arbeiten“): orientation via `get_context` and `get_capabilities`, which skill fits which task, preview/confirmation rules, limits, feature activation and product feedback.
+- `fin3000-firma-einrichten` („Firma einrichten“): owner-only company setup with `get_company_setup`, MUSTER invoice preview, two-step `configure_company_setup` and `rename_receiving_address`; tax choices only from the user.
+- `fin3000-belege` („Belege und Eingangsrechnungen“): inventory before upload, native upload/status flow, correcting and confirming incoming invoices, linking one receipt File to one transaction.
+- `fin3000-kunden` („Kunden und Lieferanten“): search, read, create and patch partners with preview/confirmation; booking default only with explicit consent.
+
+### Changed
+
+- `fin3000-rechnungen` is presented as „Rechnung schreiben“ and points customer-only work to `fin3000-kunden`; offers, finalization and sending stay in the app.
+
 ## [0.3.0] - 2026-10-29
 
 Release only after the backend with §25a without a saved purchase is deployed

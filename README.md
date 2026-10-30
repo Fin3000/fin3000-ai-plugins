@@ -40,13 +40,17 @@ dieselbe OAuth-Anmeldung.
 **Erste Frage:** „Welche Kundenrechnungen sind überfällig?“ Claude antwortet
 mit Kunde, Betrag, Fälligkeit und einem Link in deine Fin3000-Daten.
 
-## Die vier Skills
+## Die acht Skills
 
 | Skill | Wofür | Schreibt? |
 |---|---|---|
+| `fin3000-einstieg` | Einstieg: Firmen, Möglichkeiten, Vorschau und Bestätigung erklären | nein |
 | `fin3000-buchhaltung` | BWA, Einnahmen, Ausgaben, offene Posten verstehen | nein |
 | `fin3000-monatsabschluss` | Monatsabschluss vorbereiten (nur prüfen) | nein |
-| `fin3000-rechnungen` | Rechnungen prüfen, Kunde und Rechnungsentwurf anlegen | ja, nach deiner Bestätigung |
+| `fin3000-rechnungen` | Rechnung schreiben (auch §25a), offene Rechnungen prüfen | ja, nach deiner Bestätigung |
+| `fin3000-kunden` | Kunden und Lieferanten suchen, anlegen, ändern | ja, nach deiner Bestätigung |
+| `fin3000-belege` | Belege hochladen, Eingangsrechnungen prüfen, Beleg einer Zahlung zuordnen | ja, nach deiner Bestätigung |
+| `fin3000-firma-einrichten` | Firmendaten, Rechnungslayout mit Muster, Belegpostfach | ja, nach deiner Bestätigung (nur Kontoinhaber) |
 | `fin3000-buchhaltung-vervollstaendigen` | „Erledige meine Buchhaltung“: Belege, Kontierung, Buchungen, offene Aufgaben | ja, mit gespeicherten oder einmal bestätigten Freigaben |
 
 ## Aktualisieren
@@ -80,7 +84,7 @@ Trenne die Verbindung zusätzlich in Fin3000 unter Sicherheit
 ## For maintainers
 
 This repository is the distribution source for the Fin3000 plugins for
-OpenAI/Codex and Claude Code. Both packages use the same four host-neutral
+OpenAI/Codex and Claude Code. Both packages use the same eight host-neutral
 skills and connect to the OAuth-protected remote MCP endpoint
 `https://api.fin3000.com/mcp`. The production MCP server lives in the Fin3000
 backend repository under `src/mcp_server`; these sources are packaged and
