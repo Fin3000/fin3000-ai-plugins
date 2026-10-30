@@ -1,0 +1,13 @@
+interface:
+  display_name: "Firma einrichten"
+  short_description: "Firmendaten, Rechnungslayout und Belegpostfach einrichten"
+  default_prompt: "Nutze $fin3000-firma-einrichten: Zeig mir, was in meiner Firma noch fehlt, und eine Musterrechnung."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP-Server für die Firmeneinrichtung"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

@@ -1,12 +1,14 @@
 ---
 name: fin3000-rechnungen
-description: Prüfe Kundenrechnungen, Forderungen und offene Posten in Fin3000 oder bereite einen bestätigungspflichtigen Rechnungsentwurf vor; nutze den Skill bei Fragen zu Rechnungen, Rechnung schreiben, Kunden und Zahlungseingängen, nicht für Versand, Finalisierung oder Mahnungen.
+description: Schreibe Rechnungen mit Fin3000 – Rechnungsentwurf für bestehende oder neue Kunden vorbereiten (auch mit Differenzbesteuerung nach § 25a), offene und überfällige Kundenrechnungen prüfen; nutze den Skill bei „Schreib eine Rechnung an …“, „Welche Rechnungen sind offen?“ und Fragen zu Zahlungseingängen, nicht für Versand, Finalisierung oder Mahnungen.
 ---
 
-# Fin3000 Rechnungen
+# Rechnung schreiben
 
-Prüfe bestehende Rechnungen oder führe den sicheren Vorschau- und
-Bestätigungsablauf für Stammdaten und Rechnungsentwürfe aus.
+Schreibe Rechnungsentwürfe mit dem sicheren Vorschau- und Bestätigungsablauf
+oder prüfe bestehende Rechnungen. Kunden ohne Rechnung pflegt
+`fin3000-kunden`; Angebote, Finalisierung und Versand erfolgen in der
+Fin3000-App.
 
 Bei einem ausdrücklichen Auftrag zum Erledigen oder Korrigieren verwende
 `fin3000-buchhaltung-vervollstaendigen`. Dessen Revision 1 prüft vorhandene

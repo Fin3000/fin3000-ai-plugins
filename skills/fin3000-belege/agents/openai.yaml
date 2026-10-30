@@ -1,0 +1,13 @@
+interface:
+  display_name: "Belege und Eingangsrechnungen"
+  short_description: "Belege hochladen, prüfen und Zahlungen zuordnen"
+  default_prompt: "Nutze $fin3000-belege und zeig mir Eingangsrechnungen, die noch keiner Zahlung zugeordnet sind."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fin3000"
+      description: "Fin3000 MCP-Server für Belege und Eingangsrechnungen"
+      transport: "streamable_http"
+      url: "https://api.fin3000.com/mcp"
+policy:
+  allow_implicit_invocation: true

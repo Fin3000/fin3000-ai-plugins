@@ -1,7 +1,7 @@
 interface:
-  display_name: "Rechnungen und offene Posten"
-  short_description: "Rechnungsentwürfe und Forderungen prüfen"
-  default_prompt: "Nutze $fin3000-rechnungen, um offene Rechnungen zu prüfen oder einen Rechnungsentwurf vorzubereiten."
+  display_name: "Rechnung schreiben"
+  short_description: "Rechnungsentwurf erstellen, offene Rechnungen prüfen"
+  default_prompt: "Nutze $fin3000-rechnungen und schreib eine Rechnung an meinen Kunden."
 dependencies:
   tools:
     - type: "mcp"
