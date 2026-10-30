@@ -118,7 +118,7 @@ sha256sum dist/fin3000-plugin-source.zip dist/fin3000-claude-plugin-source.zip
 
 The builder uses fixed timestamps, file modes and ordering, so repeated builds
 from the same commit are byte-identical. It fails closed if a skill is
-missing, manifest names or versions differ, the manifest icon is missing or
+missing, manifest versions differ, the Codex name is not the OpenAI app ID, the manifest icon is missing or
 not a PNG, or the Claude MCP configuration contains anything other than the
 Fin3000 HTTPS endpoint. Every file the Claude manifest references ships in the
 Claude archive.

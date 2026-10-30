@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 ARCHIVE_ROOT = Path("fin3000")
+OPENAI_APP_ID = "app-6a992ccc86a881918e84f1ec15f558cf"
 EXPECTED_SKILLS = (
     "fin3000-belege",
     "fin3000-buchhaltung",
@@ -91,7 +92,16 @@ def validate_source(source: Path) -> tuple[Path, ...]:
     mcp_data = load_json(mcp_config)
     claude_listing_icon(source, claude_data)
 
-    for field in ("name", "version"):
+    # The OpenAI portal binds an uploaded package to its existing app by
+    # name, so the Codex manifest carries the portal app ID; Claude keeps
+    # the marketplace name. Versions must still match.
+    if codex_data.get("name") != OPENAI_APP_ID:
+        raise PackagingError(
+            f"Codex manifest name must be the OpenAI app ID {OPENAI_APP_ID!r}"
+        )
+    if claude_data.get("name") != "fin3000":
+        raise PackagingError("Claude manifest name must be 'fin3000'")
+    for field in ("version",):
         if codex_data.get(field) != claude_data.get(field):
             raise PackagingError(
                 f"manifest {field} differs: "
