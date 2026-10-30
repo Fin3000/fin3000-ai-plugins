@@ -206,7 +206,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
     def test_versions_and_keywords_match_across_plugin_manifests(self):
         codex = json.loads((PLUGIN_SOURCE / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
         claude = json.loads((PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-        self.assertEqual(codex["version"], "0.2.1")
+        self.assertEqual(codex["version"], "0.3.0")
         self.assertEqual(claude["version"], codex["version"])
         self.assertEqual(claude["keywords"], codex["keywords"])
 
