@@ -14,9 +14,6 @@ from pathlib import Path
 
 ARCHIVE_ROOT = Path("fin3000")
 OPENAI_APP_ID = "app-6a992ccc86a881918e84f1ec15f558cf"
-# The portal rejects a package that drops the published plugin's MCP
-# connection; .app.json maps it to this existing connector.
-OPENAI_CONNECTOR_ID = "asdk_app_6a992ccc86a881918e84f1ec15f558cf"
 EXPECTED_SKILLS = (
     "fin3000-belege",
     "fin3000-buchhaltung",
@@ -39,6 +36,8 @@ class ArchiveSpec:
     target: str
     filename: str
     files: tuple[Path, ...]
+    # Archive path -> source path, for files whose packaged name differs.
+    renamed: tuple[tuple[Path, Path], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -102,19 +101,17 @@ def validate_source(source: Path) -> tuple[Path, ...]:
         raise PackagingError(
             f"Codex manifest name must be the OpenAI app ID {OPENAI_APP_ID!r}"
         )
-    expected_apps = {
-        "apps": {
-            OPENAI_APP_ID: {
-                "id": OPENAI_CONNECTOR_ID,
-                "required": True,
-            }
-        }
-    }
-    if codex_data.get("apps") != "./.app.json":
-        raise PackagingError("Codex manifest must reference ./.app.json")
-    if load_json(source / ".app.json") != expected_apps:
+    # The portal rejects packages that drop the published plugin's MCP and
+    # packages with app references; the existing server is declared by URL.
+    if "apps" in codex_data:
+        raise PackagingError("OpenAI packages with apps/.app.json cannot be submitted")
+    if codex_data.get("mcpServers") != "./.mcp.json":
+        raise PackagingError("Codex manifest must declare mcpServers ./.mcp.json")
+    if load_json(source / ".codex-plugin/mcp.json") != {
+        "mcpServers": {"fin3000": {"url": "https://api.fin3000.com/mcp"}}
+    }:
         raise PackagingError(
-            "OpenAI .app.json must map the existing published MCP connection"
+            "OpenAI MCP declaration must keep the published Fin3000 endpoint"
         )
     if claude_data.get("name") != "fin3000":
         raise PackagingError("Claude manifest name must be 'fin3000'")
@@ -180,10 +177,10 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
             files=(
                 Path("LICENSE"),
                 Path(".codex-plugin/plugin.json"),
-                Path(".app.json"),
                 *skills,
                 *openai_agents,
             ),
+            renamed=((Path(".mcp.json"), Path(".codex-plugin/mcp.json")),),
         ),
         "claude": ArchiveSpec(
             target="claude",
@@ -209,8 +206,9 @@ def write_archive(source: Path, output: Path, spec: ArchiveSpec) -> BuildResult:
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=9,
     ) as archive:
-        for relative in sorted(spec.files, key=lambda path: path.as_posix()):
-            source_file = source / relative
+        entries = [(path, path) for path in spec.files] + list(spec.renamed)
+        for relative, origin in sorted(entries, key=lambda entry: entry[0].as_posix()):
+            source_file = source / origin
             if not source_file.is_file():
                 raise PackagingError(f"archive input is missing: {source_file}")
             member = (ARCHIVE_ROOT / relative).as_posix()

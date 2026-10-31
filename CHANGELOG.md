@@ -6,7 +6,7 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ### Fixed
 
-- The OpenAI package declares `apps: ./.app.json` and ships `.app.json` mapping the published ChatGPT MCP connection (`asdk_app_6a992ccc86a881918e84f1ec15f558cf`); the portal rejects packages that drop the existing MCP.
+- The OpenAI package declares the published MCP endpoint `https://api.fin3000.com/mcp` via `mcpServers: ./.mcp.json` (Codex format). App references (`apps`/`.app.json`) are not accepted for submission.
 
 ### Changed
 

@@ -25,7 +25,7 @@
     "gmbh"
   ],
   "skills": "./skills/",
-  "apps": "./.app.json",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Fin3000",
     "shortDescription": "Deine Buchhaltung per KI – du gibst nur frei",
