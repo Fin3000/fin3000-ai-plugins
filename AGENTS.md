@@ -9,8 +9,8 @@ worked on inside that workspace.
   intended paths. Repository name: `tools/fin3000-ai-plugins`.
 - Keep the four `skills/*/SKILL.md` files host-neutral and byte-identical in
   both generated archives.
-- Keep platform metadata separate: `.codex-plugin/`, `.app.json` (mapping to
-  the published ChatGPT MCP connection) and `agents/openai.yaml` are OpenAI-only; `.claude-plugin/` and `.mcp.json` are Claude-only.
+- Keep platform metadata separate: `.codex-plugin/`, `.codex-plugin/mcp.json` (packaged as
+  `.mcp.json`, the published ChatGPT MCP endpoint) and `agents/openai.yaml` are OpenAI-only; `.claude-plugin/` and `.mcp.json` are Claude-only.
 - Never store OAuth tokens, API tokens, client secrets or customer data here.
   The only MCP endpoint is `https://api.fin3000.com/mcp`; authentication is
   negotiated by the host through the server's OAuth discovery.
