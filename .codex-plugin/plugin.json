@@ -28,7 +28,7 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Fin3000",
-    "shortDescription": "Deine Buchhaltung per KI – du gibst nur frei",
+    "shortDescription": "KI-Buchhaltung: du gibst frei",
     "longDescription": "Fin3000 verbindet ChatGPT und Codex per OAuth mit deiner Buchhaltung – gemacht für Selbstständige, Freelancer, GbR, UG und GmbH in Deutschland. Der Assistent ordnet Belege den Kontobewegungen zu, schlägt die Kontierung nach SKR03 oder SKR04 vor und bucht, sobald du zustimmst. Offene Posten, überfällige Kunden, BWA und UStVA-Status hast du mit einer Frage im Blick, Rechnungsentwürfe entstehen in Sekunden. Jede Änderung zeigt vorher eine Vorschau; Zahlungen, Rechnungsversand und Steuerübermittlung bleiben bei dir. Deine Buchhaltungsdaten liegen ausschließlich in deutschen Rechenzentren, mehrere Firmen bleiben sauber getrennt, und der DATEV-Export für deine Steuerkanzlei ist eingebaut.",
     "developerName": "Ideal3000 GmbH",
     "category": "Finance",
@@ -41,10 +41,11 @@
     "supportURL": "https://fin3000.com/kontakt/",
     "termsOfServiceURL": "https://fin3000.com/agb/",
     "defaultPrompt": [
-      "Welche Kundenrechnungen sind überfällig und wie hoch ist der offene Betrag?",
       "Erstelle einen Rechnungsentwurf für einen Kunden und zeige mir vor dem Speichern die Vorschau.",
-      "Analysiere die BWA meiner Firma und erkläre Einnahmen, Ausgaben und Gewinn verständlich.",
-      "Mach meine Buchhaltung für den letzten Monat: Belege zuordnen und offene Buchungen klären."
-    ]
+      "Mach meine Buchhaltung für den letzten Monat: Belege zuordnen und offene Buchungen klären.",
+      "Welche Kundenrechnungen sind überfällig und wie hoch ist der offene Betrag?"
+    ],
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
   }
 }
