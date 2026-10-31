@@ -6,6 +6,8 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ### Fixed
 
+- OpenAI portal limits: subtitle at most 30 characters („KI-Buchhaltung: du gibst frei“), at most three default prompts, app icon `assets/icon.png` (the 512px Fin3000 icon) as `composerIcon` and `logo`; the builder enforces them.
+
 - The OpenAI package declares the published MCP endpoint `https://api.fin3000.com/mcp` via `mcpServers: ./.mcp.json` (Codex format). App references (`apps`/`.app.json`) are not accepted for submission.
 
 ### Changed

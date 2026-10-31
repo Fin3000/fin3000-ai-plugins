@@ -113,6 +113,18 @@ def validate_source(source: Path) -> tuple[Path, ...]:
         raise PackagingError(
             "OpenAI MCP declaration must keep the published Fin3000 endpoint"
         )
+    interface = codex_data.get("interface") or {}
+    if len(interface.get("displayName", "")) > 30:
+        raise PackagingError("OpenAI displayName exceeds 30 characters")
+    if len(interface.get("shortDescription", "")) > 30:
+        raise PackagingError("OpenAI subtitle (shortDescription) exceeds 30 characters")
+    if len(interface.get("defaultPrompt", [])) > 3:
+        raise PackagingError("OpenAI allows at most three default prompts")
+    if any(len(prompt) > 128 for prompt in interface.get("defaultPrompt", [])):
+        raise PackagingError("OpenAI default prompts are limited to 128 characters")
+    for field in ("composerIcon", "logo"):
+        if interface.get(field) != "./assets/icon.png":
+            raise PackagingError(f"OpenAI interface.{field} must be ./assets/icon.png")
     if claude_data.get("name") != "fin3000":
         raise PackagingError("Claude manifest name must be 'fin3000'")
     for field in ("version",):
@@ -180,7 +192,10 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
                 *skills,
                 *openai_agents,
             ),
-            renamed=((Path(".mcp.json"), Path(".codex-plugin/mcp.json")),),
+            renamed=(
+                (Path(".mcp.json"), Path(".codex-plugin/mcp.json")),
+                (Path("assets/icon.png"), Path(".claude-plugin/icon.png")),
+            ),
         ),
         "claude": ArchiveSpec(
             target="claude",
