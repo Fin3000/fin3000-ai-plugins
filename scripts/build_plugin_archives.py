@@ -14,6 +14,9 @@ from pathlib import Path
 
 ARCHIVE_ROOT = Path("fin3000")
 OPENAI_APP_ID = "app-6a992ccc86a881918e84f1ec15f558cf"
+# The portal rejects a package that drops the published plugin's MCP
+# connection; .app.json maps it to this existing connector.
+OPENAI_CONNECTOR_ID = "asdk_app_6a992ccc86a881918e84f1ec15f558cf"
 EXPECTED_SKILLS = (
     "fin3000-belege",
     "fin3000-buchhaltung",
@@ -99,6 +102,20 @@ def validate_source(source: Path) -> tuple[Path, ...]:
         raise PackagingError(
             f"Codex manifest name must be the OpenAI app ID {OPENAI_APP_ID!r}"
         )
+    expected_apps = {
+        "apps": {
+            OPENAI_APP_ID: {
+                "id": OPENAI_CONNECTOR_ID,
+                "required": True,
+            }
+        }
+    }
+    if codex_data.get("apps") != "./.app.json":
+        raise PackagingError("Codex manifest must reference ./.app.json")
+    if load_json(source / ".app.json") != expected_apps:
+        raise PackagingError(
+            "OpenAI .app.json must map the existing published MCP connection"
+        )
     if claude_data.get("name") != "fin3000":
         raise PackagingError("Claude manifest name must be 'fin3000'")
     for field in ("version",):
@@ -163,6 +180,7 @@ def archive_specs(source: Path) -> dict[str, ArchiveSpec]:
             files=(
                 Path("LICENSE"),
                 Path(".codex-plugin/plugin.json"),
+                Path(".app.json"),
                 *skills,
                 *openai_agents,
             ),

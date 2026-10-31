@@ -94,6 +94,7 @@ uploaded to each AI host independently.
 
 ```text
 .codex-plugin/plugin.json          OpenAI/Codex manifest
+.app.json                          OpenAI mapping to the published ChatGPT MCP connection
 .claude-plugin/plugin.json         Claude Code manifest incl. directory fields
 .claude-plugin/marketplace.json    Claude Code marketplace catalog
 .claude-plugin/icon.png            512px directory icon (copy of the app icon)
