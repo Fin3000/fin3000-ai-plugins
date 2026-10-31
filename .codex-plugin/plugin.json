@@ -25,6 +25,7 @@
     "gmbh"
   ],
   "skills": "./skills/",
+  "apps": "./.app.json",
   "interface": {
     "displayName": "Fin3000",
     "shortDescription": "Deine Buchhaltung per KI – du gibst nur frei",
@@ -37,6 +38,7 @@
     ],
     "websiteURL": "https://fin3000.com/mcp/",
     "privacyPolicyURL": "https://fin3000.com/datenschutz/",
+    "supportURL": "https://fin3000.com/kontakt/",
     "termsOfServiceURL": "https://fin3000.com/agb/",
     "defaultPrompt": [
       "Welche Kundenrechnungen sind überfällig und wie hoch ist der offene Betrag?",

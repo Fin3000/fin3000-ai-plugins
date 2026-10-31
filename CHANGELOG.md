@@ -4,6 +4,10 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Fixed
+
+- The OpenAI package declares `apps: ./.app.json` and ships `.app.json` mapping the published ChatGPT MCP connection (`asdk_app_6a992ccc86a881918e84f1ec15f558cf`); the portal rejects packages that drop the existing MCP.
+
 ### Changed
 
 - The OpenAI/Codex manifest name is the existing OpenAI portal app ID (`app-6a992ccc86a881918e84f1ec15f558cf`); the portal rejects packages whose name differs from the published app. The Claude manifest keeps `fin3000`.

@@ -68,6 +68,7 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
             {
                 "fin3000/LICENSE",
                 "fin3000/.codex-plugin/plugin.json",
+                "fin3000/.app.json",
                 *expected_skills,
                 *{
                     f"fin3000/skills/{name}/agents/openai.yaml"
