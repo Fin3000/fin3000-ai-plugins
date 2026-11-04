@@ -95,7 +95,9 @@ Eine Bedienungsanleitung ersetzt keine verfügbare Agentenaktion.
    `suggest_account` nur bei beauftragter KI-Unterstützung und vollständig
    bekanntem Rechnungs-/BU-/Datums-Kontext auf.
 3. Einen neuen Clientstandard nur mit konkreter Vorschau über `update_client`
-   und einmaliger Nutzerbestätigung speichern. Bestehende passende Standards
+   und einmaliger Nutzerbestätigung speichern. Vorher sagen, dass er künftige
+   passende Buchungen, Rechnungsbestätigungen und Zahlungsabgleiche ohne
+   erneute Rückfrage erlaubt, auch automatisch nach dem Bankabruf. Bestehende passende Standards
    weder neu bestätigen lassen noch still ersetzen. Herkunft einer übernommenen
    Empfehlung erhalten; nie als unabhängige manuelle Entscheidung ausgeben.
 4. Nutze `get_document_link_context`, dann bei eindeutiger eigener Evidenz

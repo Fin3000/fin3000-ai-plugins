@@ -213,9 +213,22 @@ class Fin3000PluginArchiveTests(unittest.TestCase):
     def test_versions_and_keywords_match_across_plugin_manifests(self):
         codex = json.loads((PLUGIN_SOURCE / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
         claude = json.loads((PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-        self.assertEqual(codex["version"], "1.1.0")
+        self.assertEqual(codex["version"], "1.1.1")
         self.assertEqual(claude["version"], codex["version"])
         self.assertEqual(claude["keywords"], codex["keywords"])
+
+    def test_claude_listing_is_german_first_with_english_and_codex_stays_german(self):
+        codex = json.loads((PLUGIN_SOURCE / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
+        claude = json.loads((PLUGIN_SOURCE / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
+        marketplace = json.loads((PLUGIN_SOURCE / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
+        for description in (claude["description"], marketplace["description"],
+                            marketplace["plugins"][0]["description"]):
+            german, english = description.split(" · English: ")
+            self.assertTrue(english.strip())
+        self.assertEqual(claude["description"].split(" · English: ")[0], codex["description"])
+        self.assertNotIn("English", codex["description"] + codex["interface"]["longDescription"])
+        self.assertNotIn("Jede Änderung zeigt vorher eine Vorschau", codex["interface"]["longDescription"])
+        self.assertIn("ohne erneute Rückfrage", codex["interface"]["longDescription"])
 
     def test_missing_openai_companion_metadata_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
