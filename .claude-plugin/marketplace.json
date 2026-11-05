@@ -1,6 +1,6 @@
 {
   "name": "fin3000-plugins",
-  "description": "Fin3000 für Claude: Claude macht deine Buchhaltung – du gibst nur frei. Für Selbstständige, Freelancer, GbR, UG und GmbH in Deutschland.",
+  "description": "Fin3000 für Claude: Claude macht deine Buchhaltung – du gibst frei. Für Selbstständige, Freelancer, GbR, UG und GmbH in Deutschland. · English: Fin3000 for Claude: Claude does your bookkeeping – you approve. For sole traders, freelancers and small companies in Germany.",
   "owner": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"
@@ -9,7 +9,7 @@
     {
       "name": "fin3000",
       "source": "./",
-      "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
+      "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären. · English: Bookkeeping for sole traders, freelancers and small companies in Germany: match receipts, book transactions, draft invoices and clear open items.",
       "category": "Finance",
       "tags": [
         "buchhaltung",

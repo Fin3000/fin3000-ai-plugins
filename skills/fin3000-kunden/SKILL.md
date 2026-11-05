@@ -30,10 +30,14 @@ description: Verwalte Kunden und Lieferanten in Fin3000 – suchen, Stammdaten u
    identischen Angaben plus `confirmation_token` speichern.
 4. Nur übergeben, was der Nutzer oder ein Beleg nennt. Keine USt-IdNr.,
    Steuernummer, Leitweg-ID oder Zahlungsziele erfinden.
-5. Ein Standard-Buchungskonto (`default_book_account_id`) ist ein
-   Buchungsvorschlag und braucht `confirm_booking_default=true` sowie eine
-   ausdrückliche Zustimmung. Erlös- und Steuerkonten gehören an
-   Rechnungspositionen, nicht hierher.
+5. Ein Standard-Buchungskonto (`default_book_account_id`) ist mehr als ein
+   Vorschlag: Gespeichert erlaubt es Fin3000 – auch der automatischen Buchung
+   nach dem Bankabruf –, passende Umsätze dieses Partners ohne erneute
+   Rückfrage zu buchen, Eingangsrechnungen zu bestätigen und Zahlungen
+   abzugleichen, über alle Firmen hinweg. Sage das vor der Bestätigung. Es
+   braucht `confirm_booking_default=true` sowie eine ausdrückliche Zustimmung;
+   ändern oder entfernen lässt es sich in der Kundenansicht. Erlös- und
+   Steuerkonten gehören an Rechnungspositionen, nicht hierher.
 
 ## Ändern
 

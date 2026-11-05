@@ -9,7 +9,14 @@ Fin3000 ist eine Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH
 in Deutschland. Über diese Verbindung liest die KI die Daten des verbundenen
 Kontos und bereitet Änderungen vor. Rechnungen, Kunden, Buchungen und
 Einstellungen werden erst gespeichert, wenn der Nutzer die Vorschau
-ausdrücklich bestätigt hat.
+ausdrücklich bestätigt hat. Ausnahmen, die der Nutzer selbst festlegt: Ein
+gespeichertes Standardkonto für einen Geschäftspartner erlaubt Fin3000 – auch
+der automatischen Buchung nach dem Bankabruf –, passende Umsätze zu buchen,
+Eingangsrechnungen zu bestätigen und Zahlungen abzugleichen, ohne erneut zu
+fragen, und zwar über alle Firmen hinweg. Eine erteilte Freigabe deckt ihre ausgewiesenen Vorgänge in einem
+ausdrücklich beauftragten Buchhaltungslauf ohne erneute Rückfrage. Sage das,
+bevor ein neues Standardkonto oder eine Freigabe gespeichert wird. Freigaben lassen sich ansehen und
+widerrufen, Standardkonten in der Kundenansicht ändern oder entfernen.
 
 ## Zuerst orientieren
 

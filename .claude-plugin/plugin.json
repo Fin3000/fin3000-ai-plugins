@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "fin3000",
   "displayName": "Fin3000",
-  "version": "1.1.0",
-  "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären.",
+  "version": "1.1.1",
+  "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären. · English: Bookkeeping for sole traders, freelancers and small companies in Germany: match receipts, book transactions, draft invoices and clear open items.",
   "author": {
     "name": "Ideal3000 GmbH",
     "url": "https://fin3000.com"

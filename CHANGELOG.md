@@ -4,6 +4,13 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- Claude listing (`.claude-plugin/plugin.json`, `marketplace.json`) is German first with the full English text after „· English:“, as required by the Anthropic directory review. The OpenAI/Codex manifest stays German; its long description now matches the German control promise.
+- Control promise discloses delegated mode: a saved business-partner default or a granted authorization lets Fin3000 book matching items without asking again; grants can be viewed and withdrawn, defaults changed or removed in the client record.
+- Skills `fin3000-einstieg`, `fin3000-kunden` and `fin3000-buchhaltung-vervollstaendigen` tell the assistant to disclose this standing authority before a default or grant is saved.
+- Version 1.1.1 for both packages.
+
 ### Fixed
 
 - OpenAI portal limits: subtitle at most 30 characters („KI-Buchhaltung: du gibst frei“), at most three default prompts, app icon `assets/icon.png` (the 512px Fin3000 icon) as `composerIcon` and `logo`; the builder enforces them.
