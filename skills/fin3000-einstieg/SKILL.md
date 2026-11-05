@@ -13,7 +13,7 @@ ausdrücklich bestätigt hat. Ausnahmen, die der Nutzer selbst festlegt: Ein
 gespeichertes Standardkonto für einen Geschäftspartner erlaubt Fin3000 – auch
 der automatischen Buchung nach dem Bankabruf –, passende Umsätze zu buchen,
 Eingangsrechnungen zu bestätigen und Zahlungen abzugleichen, ohne erneut zu
-fragen. Eine erteilte Freigabe deckt ihre ausgewiesenen Vorgänge in einem
+fragen, und zwar über alle Firmen hinweg. Eine erteilte Freigabe deckt ihre ausgewiesenen Vorgänge in einem
 ausdrücklich beauftragten Buchhaltungslauf ohne erneute Rückfrage. Sage das,
 bevor ein neues Standardkonto oder eine Freigabe gespeichert wird. Freigaben lassen sich ansehen und
 widerrufen, Standardkonten in der Kundenansicht ändern oder entfernen.
