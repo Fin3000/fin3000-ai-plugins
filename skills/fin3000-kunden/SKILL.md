@@ -29,7 +29,11 @@ description: Verwalte Kunden und Lieferanten in Fin3000 – suchen, Stammdaten u
    Token: Vorschau vollständig zeigen, ausdrücklich bestätigen lassen, dann mit
    identischen Angaben plus `confirmation_token` speichern.
 4. Nur übergeben, was der Nutzer oder ein Beleg nennt. Keine USt-IdNr.,
-   Steuernummer, Leitweg-ID oder Zahlungsziele erfinden.
+   Leitweg-ID oder Zahlungsziele erfinden. Die USt-IdNr. eines Firmenkunden
+   (`vat_id`) nur so übernehmen, wie der Nutzer sie nennt oder wie sie auf
+   einem bereitgestellten Beleg steht, nie ungefragt danach fragen. Die
+   Steuernummer des Kunden nicht im Chat erfragen oder übergeben: Sie pflegt
+   der Nutzer im Kundenstammsatz der App.
 5. Ein Standard-Buchungskonto (`default_book_account_id`) ist mehr als ein
    Vorschlag: Gespeichert erlaubt es Fin3000 – auch der automatischen Buchung
    nach dem Bankabruf –, passende Umsätze dieses Partners ohne erneute
