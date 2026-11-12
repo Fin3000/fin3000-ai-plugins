@@ -9,6 +9,7 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 - Claude listing (`.claude-plugin/plugin.json`, `marketplace.json`) is German first with the full English text after „· English:“, as required by the Anthropic directory review. The OpenAI/Codex manifest stays German; its long description now matches the German control promise.
 - Control promise discloses delegated mode: a saved business-partner default or a granted authorization lets Fin3000 book matching items without asking again; grants can be viewed and withdrawn, defaults changed or removed in the client record.
 - Skills `fin3000-einstieg`, `fin3000-kunden` and `fin3000-buchhaltung-vervollstaendigen` tell the assistant to disclose this standing authority before a default or grant is saved.
+- Skill `fin3000-kunden`: the business customer's VAT ID (`vat_id`) is passed only as the user states it or as printed on a provided document, never asked for unprompted; the customer's tax number is not requested or passed in chat but maintained in the customer record (matches backend 0.41.3).
 - Version 1.1.1 for both packages.
 
 ### Fixed
