@@ -4,6 +4,10 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `fin3000-steuererklaerungen` („Abgaben ans Finanzamt vorbereiten“) for both hosts: plain-language guide for users without a tax adviser – which filing applies to which company and when (UStVA, Dauerfristverlängerung/Sondervorauszahlung, ZM, annual VAT, EÜR, Gewerbesteuer, Feststellung, E-Bilanz, Kleinunternehmer), required master data, the VAT workflow with `get_vat_filing_context`, `prepare_vat_filing`, `validate_vat_filing` and `get_vat_return_status`, the app-only annual filings with their five guided steps, and a year-end checklist. Thresholds only as implemented in Fin3000; no deadlines; submission stays in the app. `fin3000-einstieg` routes to it.
+
 ### Changed
 
 - Claude listing (`.claude-plugin/plugin.json`, `marketplace.json`) is German first with the full English text after „· English:“, as required by the Anthropic directory review. The OpenAI/Codex manifest stays German; its long description now matches the German control promise.

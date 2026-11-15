@@ -23,6 +23,7 @@ SKILLS = (
     "fin3000-kunden",
     "fin3000-monatsabschluss",
     "fin3000-rechnungen",
+    "fin3000-steuererklaerungen",
 )
 
 

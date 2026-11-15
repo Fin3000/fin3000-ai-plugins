@@ -44,6 +44,7 @@ widerrufen, Standardkonten in der Kundenansicht ändern oder entfernen.
 | „Mach meine Buchhaltung“: zuordnen, kontieren, buchen | `fin3000-buchhaltung-vervollstaendigen` |
 | prüfen, ob der Monat fertig ist | `fin3000-monatsabschluss` |
 | Firma, Rechnungslayout oder Belegpostfach einrichten | `fin3000-firma-einrichten` |
+| Abgaben ans Finanzamt vorbereiten: Umsatzsteuer, Jahreserklärungen, Jahreswechsel | `fin3000-steuererklaerungen` |
 
 ## So funktionieren Änderungen
 
