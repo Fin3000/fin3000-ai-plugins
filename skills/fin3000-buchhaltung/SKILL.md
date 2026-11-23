@@ -34,6 +34,14 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
    - `search_clients`, `get_client` und `get_client_account_context` für
      Kundendaten und deren Kontierungshistorie;
    - `search_datev_accounts` und `get_datev_account` für Kontenfragen;
+   - `resolve_booking_policy` für die datierte Steuer- und Kontenregel genau
+     einer Transaktion, Eingangsrechnung oder eines Entwurfs. `RESOLVED` klärt
+     nur die gelieferten Fakten, nicht den betrieblichen Zweck; das Ergebnis ist
+     keine Buchungsfreigabe;
+   - `list_fixed_assets` für Anlagen, AfA-Einstellungen und gespeicherte
+     Anlagenbefunde einer Firma (allen Cursorn folgen);
+   - `list_record_attachments` für Anhänge oder interne Kommentare eines
+     Kunden, einer Transaktion, Rechnung, Datei oder Firma;
    - `get_vat_return_status` nur für den vorhandenen UStVA-/ELSTER-Status.
 4. Übernimm Zeitraum, Währung, Scope und vorläufigen Status aus den Ergebnissen.
    Ein fehlender `year_to_date`-Block ist unbekannt und niemals als null zu
@@ -47,8 +55,10 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
 
 - Dieser Skill liest und erklärt. Rufe ausschließlich Werkzeuge auf, die als
   nur lesend markiert sind (`readOnlyHint=true`). Für Änderungen verweise auf
-  `fin3000-buchhaltung-vervollstaendigen` (Belege, Buchungen, Korrekturen)
-  oder `fin3000-rechnungen` (Kunden, Rechnungsentwürfe).
+  `fin3000-buchhaltung-vervollstaendigen` (Belege, Buchungen, Korrekturen,
+  Stornos, private Umsätze, Anlagen), `fin3000-rechnungen` (Rechnungsentwürfe),
+  `fin3000-kunden` (Kunden) oder `fin3000-steuererklaerungen`
+  (Umsatzsteuer-Entwürfe).
 - Verbindlichkeiten, Eingangsrechnungen, Transaktionen oder Journalbereiche
   dürfen nicht als BU-genau bezeichnet werden, wenn das jeweilige Tool nur den
   Owner-Scope liefert. Weise den Scope sichtbar aus.

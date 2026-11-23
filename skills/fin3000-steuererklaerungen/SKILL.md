@@ -16,6 +16,12 @@ gehören nicht in die Antwort an den Nutzer.
   bewusst kein Werkzeug zum Übermitteln. `validate_vat_filing` prüft nur lokal
   und sendet nichts. Behaupte nie, etwas sei gesendet oder angenommen, solange
   `get_vat_return_status` es nicht meldet.
+- **Jede Umsatzsteuer-Schreibaktion einzeln bestätigen.** Einrichtung, Entwurf
+  und lokale Prüfung zeigen zuerst eine Vorschau; erst nach ausdrücklichem Ja
+  mit `confirmation_token` wiederholen. Buchungsfreigaben, gespeicherte
+  Kundenstandards und die allgemeine Schreibfreigabe der Verbindung decken das
+  nicht. Bestätigungen, die die App beim Senden verlangt, gibt der Nutzer dort
+  selbst ab.
 - **Keine Steuerberatung.** Erkläre, was Fin3000 zeigt und fragt. Ob eine Regel
   im Einzelfall gilt, entscheidet der Nutzer; bei Zweifel an das Finanzamt
   verweisen. Alle Werte sind vorläufig, bis der Nutzer sie geprüft hat.
@@ -29,8 +35,10 @@ gehören nicht in die Antwort an den Nutzer.
   lass es bestätigen oder korrigieren.
 - **Steuernummer, Finanzamt und USt-IdNr. nicht im Chat erfragen.** Der Nutzer
   trägt sie in der App ein; danach den Stand neu lesen.
-- **Keine Fristen nennen.** Fin3000 kennt keine Abgabefristen. Sage immer: „Frist
-  beim Finanzamt bzw. in ELSTER prüfen.“
+- **Keine Fristen ausrechnen.** Diese Verbindung liefert keine Abgabefristen.
+  Fin3000 zeigt sie in der App unter Buchhaltung → Finanzamt; dorthin verweisen
+  („Frist in Fin3000 unter Finanzamt bzw. beim Finanzamt prüfen“), keine Frist
+  selbst berechnen oder schätzen.
 - Die erste Bitte („Mach meine Voranmeldung“) ist keine Bestätigung einer
   späteren Vorschau.
 
@@ -44,7 +52,8 @@ gehören nicht in die Antwort an den Nutzer.
 | Zusammenfassende Meldung | wer steuerfrei an Unternehmen in anderen EU-Ländern liefert oder leistet | nach dem Quartal, teils monatlich | ja |
 | Umsatzsteuer-Jahreserklärung | Firmen, die Umsatzsteuer berechnen | für das Vorjahr | ja |
 | EÜR (Einnahmenüberschussrechnung) | Einzelunternehmen und GbR ohne Bilanz | für das Vorjahr | nur in der App |
-| Gewerbesteuererklärung | gewerbliche Einzelunternehmen und GbR, nicht Freiberufler | für das Vorjahr | nur in der App |
+| Gewerbesteuererklärung | gewerbliche Einzelunternehmen und GbR, GmbH und UG, nicht Freiberufler | für das Vorjahr | nur in der App |
+| Körperschaftsteuererklärung | GmbH und UG | für das Vorjahr | nur in der App (derzeit für 2025) |
 | Gewerbesteuer-Zerlegung | wer Betriebsstätten in mehreren Gemeinden hat oder umgezogen ist | für das Vorjahr | nur in der App |
 | Feststellungserklärung | GbR | für das Vorjahr | nur in der App |
 | E-Bilanz | Firmen, die eine Bilanz aufstellen, z. B. GmbH und UG | nach dem Jahresabschluss | nur in der App |
@@ -58,17 +67,24 @@ Erklärungen für den Nutzer:
   widerrufen wird. Wer monatlich meldet, zahlt dafür jedes Jahr eine
   Sondervorauszahlung; Fin3000 rechnet 1/11 der Vorauszahlungen des Vorjahres,
   abgerundet auf volle Euro. Wer vierteljährlich meldet, braucht keine.
-- **Zusammenfassende Meldung:** Fin3000 rechnet mit monatlicher Meldung, wenn
-  die Warenlieferungen 50.000 € im Quartal übersteigen.
+- **Zusammenfassende Meldung:** Fin3000 schlägt monatliche Meldung vor, wenn
+  die Warenlieferungen 50.000 € im laufenden oder einem der vier vorangegangenen
+  Quartale übersteigen.
 - **Kleinunternehmer** berechnen keine Umsatzsteuer. Fin3000 blendet dann
-  Umsatzsteuer-Jahreserklärung, Zusammenfassende Meldung und
-  Dauerfristverlängerung aus, außer die Firma schuldet selbst Steuer (z. B. für
-  Leistungen ausländischer Anbieter). Fin3000 prüft ab 2025 gegen 25.000 €
+  Umsatzsteuer-Voranmeldung, Umsatzsteuer-Jahreserklärung, Zusammenfassende
+  Meldung und Dauerfristverlängerung aus, außer die Firma schuldet selbst
+  Steuer (z. B. für Leistungen ausländischer Anbieter). Ist das noch offen (im
+  laufenden Jahr meist), bleiben sie sichtbar. Fin3000 prüft ab 2025 gegen 25.000 €
   Umsatz im Vorjahr und 100.000 € im laufenden Jahr (bis 2024: 22.000 € und
   50.000 €). Das Ergebnis ist ein Vorschlag; die Entscheidung trifft der Nutzer.
-- **Nicht in Fin3000:** Einkommensteuer- und Körperschaftsteuererklärung, die
-  Gewerbesteuererklärung und EÜR einer GmbH oder UG sowie die Feststellung
-  anderer Personengesellschaften als der GbR. Das läuft direkt über ELSTER oder
+- **Nur in der App:** Körperschaft- und Gewerbesteuererklärung einer GmbH oder
+  UG bereitet Fin3000 derzeit für das Jahr 2025 vor; die eigene
+  Einkommensteuererklärung des Kontoinhabers hat einen eigenen Bereich unter
+  Finanzamt. Über diese Verbindung gibt es dafür kein Werkzeug; nur den Status
+  mit `get_vat_return_status` (`procedure=corporation_tax` bzw. `trade_tax`)
+  lesen.
+- **Nicht in Fin3000:** die Feststellung anderer Personengesellschaften als der
+  GbR und Jahre, die Fin3000 nicht anbietet. Das läuft direkt über ELSTER oder
   einen Steuerberater.
 - Fin3000 blendet eine Abgabe nur aus, wenn die Stammdaten sie sicher
   ausschließen. Fehlen Stammdaten, bleibt sie sichtbar.
@@ -94,12 +110,15 @@ was fehlt. Benötigt werden:
   Steuer zählt ab der Rechnung; Ist heißt, sie zählt ab dem Zahlungseingang.
   Immer mit `vat_calculation_method_effective_from`. Ist nur, wenn der Nutzer
   sagt, dass das Finanzamt sie genehmigt hat; dann zusätzlich
-  `vat_ist_permission_confirmed=true`. Fin3000 schlägt immer Soll vor.
+  `vat_ist_permission_confirmed=true`. Die Wahl trifft der Nutzer, nicht die KI.
 
 Fehlende Angaben außer den Kennnummern speichert `configure_company_setup` wie in
-`fin3000-firma-einrichten`: nur die geänderten Felder, Vorschau vollständig
-zeigen, ausdrückliches Ja, dann identisch mit `confirmation_token`. Das kann nur
-der Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
+`fin3000-firma-einrichten`, nur die geänderten Felder. Es folgt dem
+Verbindungsmodus: Bei `permissions.confirm_writes=false` speichert der erste
+Aufruf mit stabiler `request_id`; sonst Vorschau vollständig zeigen,
+ausdrückliches Ja, dann identisch mit `confirmation_token`. Sollen Steuerangaben
+vorher geprüft werden, `execution_mode=manual` setzen. Das kann nur der
+Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
 
 ## Umsatzsteuer vorbereiten: der Ablauf
 
@@ -116,10 +135,14 @@ der Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
    vorläufigen Überblick. Offene Befunde zuerst erledigen
    (`fin3000-buchhaltung-vervollstaendigen`) oder dem Nutzer sagen, dass die
    Abgabe dann unvollständig ist. Null Befunde beweisen keine Vollständigkeit.
+   Quellenabdeckung mit `list_bookkeeping_sources` lesen; fehlende Belege mit
+   `search_transactions` (`has_document=false`, alle Buchungszustände) für
+   denselben Zeitraum auflisten und sagen, welche die Abgabe betreffen.
 4. **Was Fin3000 noch braucht.** `get_vat_filing_context` mit `intent`:
    `procedure` (`ustva`, `vat_extension`, `zm` oder `vat_annual`),
    `period_start`, `period_end`, `business_unit_ids`. Ohne `intent` liefert es
-   die erlaubten Firmen-IDs.
+   die erlaubten Firmen-IDs. Ob monatlich oder vierteljährlich gemeldet wird,
+   nicht vorab fragen; nur, wenn Fin3000 es als Frage liefert.
    - `status=ready`: weiter mit Schritt 5.
    - `status=needs_input`: nur die gelieferten `questions` stellen, in eigenen
      Worten. Die Antwort an ihren `answer_path` setzen und `question_id` mit
@@ -132,9 +155,18 @@ der Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
      Kontext neu lesen.
    - Ob mehrere Firmen dieselbe Person sind (`same_person`) oder eine Organschaft
      bilden, kommt nur vom Nutzer. Zeitraum und Firmen aus `resolved_scope`
-     vor der Bestätigung erklären.
-5. **Entwurf.** `prepare_vat_filing` mit demselben `intent`; beim ersten Mal die
-   bestätigte Einrichtung als `setup` im selben Aufruf. Bei
+     vor der Bestätigung erklären. Gemeinsame Abgabe: `business_unit_ids`;
+     Übernahmen aus früheren Jahren nutzen stattdessen das gelieferte
+     `historical_taxpayer_ref` ohne Firmenliste. Eine gespeicherte `filing_id`
+     behält ihren Umfang.
+5. **Entwurf.** Vorher mit `get_vat_return_status` (`year`, `period`) prüfen,
+   ob es für den Zeitraum schon einen Entwurf gibt; dann mit dessen
+   `filing_id` weitermachen statt einen zweiten anzulegen (Fin3000 verhindert
+   Doppelentwürfe nicht, und diese Verbindung kann keinen löschen).
+   `prepare_vat_filing` mit demselben `intent`. Nur bei der ersten
+   gemeinsamen Abgabe mehrerer Firmen (dieselbe Person oder Organschaft, vom
+   Nutzer bestätigt) die Einrichtung als `setup` im selben Aufruf mitgeben; eine
+   einzelne Firma braucht kein `setup`. Bei
    `procedure=vat_extension` zusätzlich `filing_kind`: `duration_extension`
    (vierteljährlich) oder `special_advance` (monatlich). Der erste Aufruf ohne
    Token ist eine Vorschau: Firma, Zeitraum, `amounts`, `issues` und Wirkung
@@ -154,11 +186,28 @@ der Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
      anlegen und mit `filing_id` fortsetzen.
    - `preflight_blocked`: Befunde in Alltagssprache erklären und in Buchhaltung
      oder App beheben lassen; nichts umgehen.
+   - Nur Einrichtung oder eine datierte Änderung einer gemeinsamen Abgabe, ohne
+     Entwurf, und nur auf ausdrücklichen Wunsch: `configure_vat_filing` mit
+     `setup` (gleiche Quelle mit `source_ref`, `source_fingerprint`,
+     `confirmed=true`). Vorschau mit Quelle, Datum, Regelung, Stammdaten-
+     Ergänzungen und betroffenen Abgaben zeigen, ausdrückliches Ja, dann
+     identisch mit `confirmation_token`. Korrekturen bestehender Abgaben nur mit
+     ausdrücklicher Bestätigung des Nutzers (`acknowledge_corrections`). Braucht
+     den Kontoinhaber und ein eingetragenes Finanzamt. Für den ersten Entwurf
+     genügt `setup` in `prepare_vat_filing`; keine zusätzliche Einrichtungskette.
 6. **Lokal prüfen.** `validate_vat_filing` mit `filing_id` und
    `expected_revision` (aus `next_actions` der Antwort): Vorschau, ausdrückliches
-   Ja, dann mit Token. Das sendet nichts.
+   Ja, dann identisch mit Token. Das sendet nichts; `queued` heißt nur
+   „eingereiht“. Danach nur noch `get_vat_return_status` abfragen, die Prüfung
+   nicht erneut anstoßen; eine neue Prüfung braucht eine neue Vorschau und ein
+   neues Ja. Bei unklarem Ausgang nicht neu anstoßen, sondern den Status
+   lesen. Abgelaufene oder widerrufene Anmeldung: neue Anfrage nach neuer
+   Anmeldung.
 7. **Status lesen.** `get_vat_return_status` mit `filing_id`. `queued` und
-   `validated` sind noch nicht angenommen. Bei `submission_unknown` nichts neu
+   `validated` sind noch nicht angenommen. Nach einer steuerlich relevanten
+   Buchungsänderung mit `filing_id` und `check_readiness=true` die aktuelle
+   Abgabebereitschaft (Buchhaltung, Zertifikat, Prüfung) lesen; eine frühere
+   Prüfung oder eine leere Befundliste allein beweist sie nicht. Bei `submission_unknown` nichts neu
    senden lassen, sondern in der App klären.
 8. **Zum Senden in die App.** Den Link aus `next_actions` (`open_app`) oder
    `filing.native_url` geben, sonst „in Fin3000 unter Buchhaltung → Finanzamt“.
@@ -168,8 +217,12 @@ der Kontoinhaber mit Schreibzugriff. Danach `get_company_setup` neu lesen.
 Rechte und Fehler: Entwürfe und Prüfungen kann nur der Kontoinhaber mit
 Schreibzugriff; die Funktion „Finanzamt“ muss unter Einstellungen → Funktionen
 eingeschaltet sein. `permission_denied` oder `requires_owner_connection`: mit der
-Verbindung des Kontoinhabers oder in der App weiter. Bei verlorener Antwort oder
-`setup_busy` denselben Aufruf mit demselben Token wiederholen, nie einen zweiten
+Verbindung des Kontoinhabers oder in der App weiter. Bei verlorener Antwort
+zuerst `get_vat_return_status` lesen. Einen Entwurf (`prepare_vat_filing`,
+`configure_vat_filing`) bei offenem Ausgang mit demselben Token identisch
+wiederholen; eine lokale Prüfung (`validate_vat_filing`) mit unklarem Ausgang
+nie neu anstoßen, sondern Status lesen und in der App klären. Bei `busy` bzw.
+`setup_busy` identisch nach 2 Sekunden, höchstens zweimal. Nie einen zweiten
 Entwurf anlegen. `setup_changed`: Kontext neu lesen, neue Vorschau. Fehlt ein
 ELSTER-Zertifikat, meldet `get_vat_return_status` das im `hint`; es wird in der
 App eingerichtet.
@@ -228,16 +281,20 @@ Nutzer löst sie aus. Zum Jahresende und im Januar/Februar:
   weiter; wer monatlich meldet, gibt die Sondervorauszahlung für das neue Jahr
   neu ab (`procedure=vat_extension`, `filing_kind=special_advance`). Fin3000
   kennt die Vorjahressteuer erst, wenn alle zwölf Monate angenommen sind.
-- **Jahreserklärungen des Vorjahres:** erst wenn alle Voranmeldungen des Jahres
-  angenommen sind. Umsatzsteuer-Jahreserklärung hier vorbereiten, die übrigen in
-  der App. Bietet Fin3000 das neue Jahr noch nicht an, ist es noch nicht
-  freigegeben; nicht umgehen.
+- **Jahreserklärungen des Vorjahres:** Fin3000 rechnet mit den angenommenen
+  Voranmeldungen; fehlen Monate, fragt es nach einer belegten Summe, z. B. aus
+  den Bescheiden. Umsatzsteuer-Jahreserklärung hier vorbereiten, die übrigen in
+  der App.
+- **Neues Jahr noch nicht angeboten:** Das gilt für Sondervorauszahlung, erste
+  Voranmeldung und Jahreserklärungen gleichermaßen. Bietet Fin3000 ein Jahr noch
+  nicht an, ist es noch nicht freigegeben; nicht umgehen, in der App nachsehen.
 - **Kleinunternehmer-Grenzen:** Fin3000 vergleicht die Umsätze mit den Grenzen
   oben und macht einen Vorschlag; der Nutzer bestätigt den Status in den
   Stammdaten oder klärt ihn mit dem Finanzamt.
 - **Zusammenfassende Meldung:** Fin3000 schlägt den Zeitraum nach der letzten
   angenommenen Meldung vor.
-- Fristen für alles: beim Finanzamt bzw. in ELSTER prüfen.
+- Fristen: in Fin3000 unter Finanzamt bzw. beim Finanzamt prüfen, nicht selbst
+  ausrechnen.
 
 ## Ergebnis
 
@@ -245,7 +302,7 @@ Gib je Firma eine Checkliste mit `Erledigt`, `Prüfen` und `Nicht beurteilbar`:
 Stammdaten, Buchhaltung des Zeitraums, Entwurf, lokale Prüfung, Status. Nenne
 Zeitraum, Beträge nur aus Fin3000 (als vorläufig) und die gelieferten Links.
 Schließe mit dem nächsten Schritt des Nutzers, meist: „In der App prüfen und
-senden; Frist beim Finanzamt bzw. in ELSTER prüfen.“
+senden; Frist in Fin3000 unter Finanzamt prüfen.“
 
 ## Wenn etwas nicht klappt
 

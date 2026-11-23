@@ -51,7 +51,7 @@ mit Kunde, Betrag, Fälligkeit und einem Link in deine Fin3000-Daten.
 | `fin3000-kunden` | Kunden und Lieferanten suchen, anlegen, ändern | ja, nach deiner Bestätigung |
 | `fin3000-belege` | Belege hochladen, Eingangsrechnungen prüfen, Beleg einer Zahlung zuordnen | ja, nach deiner Bestätigung |
 | `fin3000-firma-einrichten` | Firmendaten, Rechnungslayout mit Muster, Belegpostfach | ja, nach deiner Bestätigung (nur Kontoinhaber) |
-| `fin3000-buchhaltung-vervollstaendigen` | „Erledige meine Buchhaltung“: Belege, Kontierung, Buchungen, offene Aufgaben | ja, mit gespeicherten oder einmal bestätigten Freigaben |
+| `fin3000-buchhaltung-vervollstaendigen` | „Erledige meine Buchhaltung“: Belege, Kontierung, Buchungen, Korrekturen und Stornos, private Umsätze, Anlagen, offene Aufgaben | ja, mit gespeicherten oder einmal bestätigten Freigaben |
 | `fin3000-steuererklaerungen` | Abgaben ans Finanzamt: welche Abgabe passt, Umsatzsteuer vorbereiten und lokal prüfen, Jahreswechsel; senden machst du in der App | Entwürfe ja, nach deiner Bestätigung (nur Kontoinhaber) |
 
 ## Aktualisieren

@@ -40,7 +40,8 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
    Business Unit, Positionen, Menge, Preis oder Text fordere eine neue Vorschau
    an.
 4. Löse für einen Rechnungsentwurf den Kunden mit `search_clients` und die
-   Business Unit mit `get_context` auf. Frage bei fehlenden oder mehrdeutigen
+   Business Unit mit `get_context` auf. Einen bestehenden Kunden danach mit
+   `get_client` lesen; nur dort stehen seine Adressen samt IDs. Frage bei fehlenden oder mehrdeutigen
    Positionen, Mengen oder Verkaufspreisen nach, bevor du `create_invoice_draft`
    aufrufst.
 5. Soll für einen neuen Kunden direkt eine Rechnung entstehen, übergib den
@@ -75,7 +76,9 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
 - Zwei Wege, beide freiwillig: direkt an der Position (oben) oder über einen
   gespeicherten Ankauf. Nennt der Nutzer einen Ankauf, such ihn mit
   `list_margin_acquisitions` und übergib `margin_acquisition_id`; die übrigen
-  §25a-Felder dann weglassen. Einen Ankauf mit `save_margin_acquisition` nur auf
+  §25a-Felder dann weglassen. Details eines Ankaufs liest
+  `get_margin_acquisition`; Lieferantenstatus nur so wiedergeben, wie der
+  Datensatz ihn nennt, nie aus Bank- oder Belegtext ableiten. Einen Ankauf mit `save_margin_acquisition` nur auf
   ausdrücklichen Wunsch anlegen (eigene Vorschau und Bestätigung).
   `ready=false` heißt nur, dass freiwillige Angaben fehlen.
 - Zeige die §25a-Zeile der Vorschau und gib Hinweise (`advisories`) in eigenen

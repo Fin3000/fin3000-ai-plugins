@@ -2,11 +2,28 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
-## [Unreleased]
+## [1.2.0] - 2026-11-23
 
-### Added
+Skills an die MCP-Werkzeuge von Backend v0.51.0 angepasst. Lohnbuchhaltung ist
+nicht enthalten.
+
+### Hinzugefügt
 
 - `fin3000-steuererklaerungen` („Abgaben ans Finanzamt vorbereiten“) for both hosts: plain-language guide for users without a tax adviser – which filing applies to which company and when (UStVA, Dauerfristverlängerung/Sondervorauszahlung, ZM, annual VAT, EÜR, Gewerbesteuer, Feststellung, E-Bilanz, Kleinunternehmer), required master data, the VAT workflow with `get_vat_filing_context`, `prepare_vat_filing`, `validate_vat_filing` and `get_vat_return_status`, the app-only annual filings with their five guided steps, and a year-end checklist. Thresholds only as implemented in Fin3000; no deadlines; submission stays in the app. `fin3000-einstieg` routes to it.
+- `fin3000-buchhaltung-vervollstaendigen`: Buchungen korrigieren (`correct_bookings`), offene Zuordnungen entfernen (`unbook_bookings`), stornieren per Gegenbuchung (`reverse_bookings`, Alias `cancel_bookings`), neuen Buchungsvorgang anlegen (`create_booking`), Entwurfslink (`prepare_accounting_review`, `prepare_booking_review`), Steuer-/Kontenregel (`resolve_booking_policy`), private Umsätze (`mark_transactions_private`), Einzelkontierung (`categorize_transaction`), Freigabe widerrufen (`revoke_bookkeeping_authorization`) sowie Anlagen und AfA (`list_fixed_assets`, `save_fixed_asset`) – jeweils mit dem Bestätigungs-, `proposal_id`-/`request_id`- und Wiederaufnahmeweg des Werkzeugs. Gebuchtes wird nur per Korrektur oder Storno berichtigt, nie gelöscht.
+- `fin3000-einstieg`: Verbindungsmodus (`permissions.confirm_writes=false` mit stabiler `request_id`), Arbeitsmappen über Chats hinweg (`list_workbooks`, `get_workbook`, `save_workbook`, `delete_workbook`) und `get_product_feedback`.
+- `fin3000-belege`: Anhänge und interne Kommentare (`list_record_attachments`, `add_comment`).
+- `fin3000-buchhaltung`: lesend `resolve_booking_policy`, `list_fixed_assets`, `list_record_attachments`.
+- `fin3000-rechnungen`: `get_margin_acquisition` für gespeicherte §25a-Ankäufe.
+
+### Geändert
+
+- `fin3000-steuererklaerungen` gegen Backend v0.51.0 abgeglichen: `configure_vat_filing` für reine Einrichtung, `get_vat_return_status` mit `check_readiness`, historische Übernahmen, jede Umsatzsteuer-Schreibaktion einzeln bestätigt; Fristen zeigt die App (nicht selbst ausrechnen); Körperschaft- und Gewerbesteuer von GmbH/UG (2025) und die eigene Einkommensteuererklärung nur in der App.
+- `fin3000-monatsabschluss` verweist für die Umsatzsteuer-Voranmeldung auf `fin3000-steuererklaerungen`.
+- Wiederaufnahme nach Antwortverlust: erst Status lesen, bei `unknown` nichts neu senden, `busy` höchstens zweimal nach 2 Sekunden (`fin3000-einstieg`, `fin3000-buchhaltung-vervollstaendigen`, `fin3000-steuererklaerungen`). `fin3000-rechnungen` liest bestehende Kunden mit `get_client`; `fin3000-belege` verknüpft Dateien ohne Rechnungsdaten direkt.
+- Version 1.2.0 für beide Pakete.
+
+## [1.1.1]
 
 ### Changed
 
