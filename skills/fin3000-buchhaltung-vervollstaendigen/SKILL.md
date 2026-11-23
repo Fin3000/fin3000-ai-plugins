@@ -1,6 +1,6 @@
 ---
 name: fin3000-buchhaltung-vervollstaendigen
-description: Vervollständige die Buchhaltung einer ausdrücklich ausgewählten Firma und eines Zeitraums in Fin3000: verfügbare Belege beschaffen, Lieferantenkontierung ergänzen, Belege zuordnen, gedeckte Buchungen und Korrekturen ausführen, Ergebnisse prüfen und offene native Aufgaben pflegen. Für Ausführungsaufträge wie „Erledige meine Buchhaltung“, nicht für reine Finanzanalysen oder Steuerübermittlungen.
+description: Vervollständige die Buchhaltung einer ausdrücklich ausgewählten Firma und eines Zeitraums in Fin3000: verfügbare Belege beschaffen, Lieferantenkontierung ergänzen, Belege zuordnen, gedeckte Buchungen und Korrekturen ausführen, einzelne Buchungen korrigieren, stornieren, privat markieren oder neu anlegen, Anlagen pflegen, Ergebnisse prüfen und offene native Aufgaben pflegen. Für Ausführungsaufträge wie „Erledige meine Buchhaltung“ oder „Buche das um“, nicht für reine Finanzanalysen oder Steuerübermittlungen.
 ---
 
 # Buchhaltung vervollständigen
@@ -35,6 +35,9 @@ Eine Bedienungsanleitung ersetzt keine verfügbare Agentenaktion.
    bestehende Leseverträge und benenne die fehlende Inventur/Fortsetzung. Keine
    neuen Parameter an alte Werkzeuge senden. Ein alter Host oder Server beweist
    weder ein fehlendes Postfach noch vollständige Buchhaltung.
+6. Soll die Arbeit in einem anderen Chat weitergehen, hilft eine Arbeitsmappe
+   (siehe `fin3000-einstieg`). Sie ist nur Notiz, keine Freigabe; maßgeblich
+   bleiben der aktuelle Fin3000-Stand und die Original-IDs.
 
 ## Belege beschaffen
 
@@ -156,6 +159,154 @@ mit `settle_invoice_payments` anhand konkreter Beträge und nativer offener
 Restbeträge. Benutze echte Bank-/Kassenbewegungen. Keine fingierten Zahlungen,
 keine beliebigen Überschreibungen geschützter Journalzeilen. Der native
 Korrekturweg erhält Stornohistorie, Splits, Teilzahlungen und Sperren.
+
+## Buchungen korrigieren, zurücknehmen, neu anlegen
+
+Exportierte oder festgeschriebene Buchungen werden nie gelöscht oder
+überschrieben, sondern über Korrektur oder Storno mit Gegenbuchung berichtigt;
+die Historie bleibt. Nur eine noch offene (OPEN) Zuordnung darf Fin3000 selbst
+entfernen. Gesperrt wird nur durch Festschreibung; festschreiben kann nur der
+Nutzer in der App, und festgeschriebene Buchungen werden ausschließlich per
+Storno oder Ersatzbuchung berichtigt. Eine falsch verknüpfte Datei löst `unlink_document_from_transaction`
+(siehe `fin3000-belege`); die folgenden Werkzeuge nur, wenn die Buchung selbst
+falsch ist oder die Unlink-Vorschau `can_confirm=false` meldet, und dann erst
+anbieten.
+
+1. Vorher lesen: `get_booking_context` mit `transaction_ids` oder typisierten
+   `targets` (`transaction`, `journal_group`, `incoming_document`,
+   `incoming_payment`), datierte Konten mit `search_datev_accounts` bzw.
+   `get_datev_account` und die Steuerregel mit `resolve_booking_policy` (genau
+   eines von `transaction_id`, `incoming_invoice_id`, `draft_facts`).
+   `RESOLVED` klärt nur die gelieferten Fakten. Bei
+   `POLICY_EXPENSE_ACCOUNT_REQUIRES_BUSINESS_CONTEXT` den tatsächlichen Zweck
+   erfragen; kein Waren- oder Auslandskonto allein aus Steuersatz oder
+   Zahlungsdienst übernehmen.
+2. Werkzeug nach Absicht wählen. Jeder Befehl hat ein festes `operation`, einen
+   `reason` aus dem Auftrag des Nutzers und 1–50 eindeutige Ziele; nie still
+   eine Teilmenge ausführen oder in Pakete aufteilen.
+   - `correct_bookings` (`correct`): Konto, Aufteilung oder Steuerbehandlung
+     bestehender eigener Buchungen ändern (`intent.kind` `STANDARD_ACCOUNT`,
+     `EXPERT_SPLIT`, `TAX_TREATMENT`, `RESET`). Auch die erste Zuordnung
+     mehrerer Belege zu einer geprüften ungebuchten Transaktion.
+     `INCOMING_BUSINESS_UNIT` prüft eine verknüpfte Eingangsrechnung samt
+     Transaktion gegen eine andere Firma; nur mit Nutzer-Anmeldung, die beide
+     Firmen sieht; es bezahlt nichts. `LOCKED_REPLACEMENT` hängt Storno und
+     Ersatzbuchung an dieselbe Transaktion und braucht ein ausdrückliches
+     `booking_date` in einer offenen Periode.
+   - `unbook_bookings` (`unbook`): eine offene (OPEN) Zuordnung entfernen. Die
+     Bankbewegung bleibt; die Vorschau zeigt entfernte Buchungszeilen,
+     zurückgenommene Zahlungszuordnungen und abgeschaltete Automatik. Ist die
+     Buchung schon exportiert, festgeschrieben oder nicht mehr offen, nicht
+     entbuchen, sondern `reverse_bookings` bzw. `correct_bookings` vorschlagen.
+   - `reverse_bookings` (`reverse`, Pflicht `booking_date` und `reason`):
+     vollständige Gegenbuchung oder der Storno der zugehörigen Zahlung bzw.
+     Anpassung. Das Buchungsdatum nennt der Nutzer; nicht erfinden.
+   - `cancel_bookings` ist nur der begrenzte Alias für `unbook`/`reverse` im
+     manuellen Ablauf; bevorzugt die beiden Einzelwerkzeuge.
+   - `create_booking` (`create`): genau ein neuer EUR-Buchungsvorgang ohne
+     vorhandene Bank-/Kassenbewegung, z. B. eine Umbuchung. Vorher mit
+     `search_transactions` prüfen, ob die Bewegung schon importiert ist; dann
+     sie mit `book_transactions` buchen statt doppelt anzulegen. Fehlt ein
+     Fremdbeleg, darauf hinweisen (z. B. Eigenbeleg), nicht blockieren. Ein `draft`
+     (`business_unit_id`, `booking_date`, `total_amount`, `description`, bei
+     Bedarf eine vorhandene `money_source_id`) und ein `intent`
+     (`STANDARD_ACCOUNT`, `EXPERT_SPLIT` oder `TAX_TREATMENT`); keine Ziele,
+     keine Stapel. Vorhandene Bankbewegungen bucht `book_transactions`, nie
+     `create_booking` und nie mit einer erfundenen Rechnung. Auch hier ist
+     `reason` Pflicht. Rücknahme später mit `reverse_bookings`.
+3. Umsatz-, AfA-, Import- und reine Steuerzeilen gehören ihrer Quelle
+   (Rechnung, Anlage, Import). Bei `source_command_required` den genannten
+   nativen Weg nutzen. Meldet Fin3000 eine geschlossene Periode, eine Korrektur
+   oder einen Storno mit Datum in einer offenen Periode vorschlagen. Betrifft
+   eine Änderung schon exportierte Daten, das dem Nutzer sagen. Nach seinem
+   ausdrücklichen Ja eine neue Vorschau mit `acknowledge_stale_exports=true`
+   im `command` holen und genau diesen `command` bestätigen; das Feld nie erst
+   beim Bestätigen ergänzen.
+4. Kostenstellen (`cost_center`, `cost_object`, `cost_lines`) nur, wenn die
+   Funktion im Konto aktiviert ist und der Nutzer sie nennt.
+5. `intent.apply_to_client=true` speichert zusätzlich einen Kundenstandard:
+   eigene Zustimmung, vorher die Dauerwirkung wie oben offenlegen.
+
+Bestätigungsweg:
+
+- **Manuell** (Standard bei `correct_bookings`, `unbook_bookings`,
+  `reverse_bookings`, `cancel_bookings`): Der erste Aufruf ohne Token schreibt
+  nichts und vergibt eine `proposal_id`. Alle Wirkungen und blockierten Quellen
+  zeigen, ausdrückliches Ja einholen, dann denselben `command` mit dieser
+  `proposal_id` und dem `confirmation_token` wiederholen. Bei `busy` denselben
+  Vorschlag mit demselben Token nach 2 Sekunden wiederholen, höchstens zweimal.
+  Nach verlorener Antwort zuerst `get_booking_context` nur mit
+  `status_request={review_kind: booking_mutation, proposal_id}` lesen (bei
+  `create_booking`: `booking_create`): `committed` liefert den Originalbeleg;
+  `unknown` beweist keine Rücknahme und erlaubt keinen neuen Schreibversuch und
+  keinen neuen Vorschlag – dem Nutzer den offenen Stand nennen und später
+  erneut lesen.
+- **Autorisiert** (`prepare_authorized`, dann `execute_authorized` mit
+  derselben `action_id`): für Korrekturen, Entfernen und Stornos nur mit einer
+  passenden erteilten Freigabe. Ein Kundenstandard deckt sie nie.
+- **`create_booking` im Verbindungsmodus** (Standard): Meldet `get_context`
+  `permissions.confirm_writes=false`, bucht der erste Aufruf mit einer stabilen
+  `request_id` (UUID) ohne Token; die Bestätigung des Hosts gilt weiter. Sonst
+  liefert derselbe Aufruf eine Vorschau; nach dem Ja identisch mit derselben
+  `request_id` plus Token. `request_id` und `proposal_id` nie zusammen
+  verwenden: Ohne `request_id` gilt der manuelle Weg mit `proposal_id` oben.
+  Nach Antwortverlust dieselbe `request_id` mit identischen Angaben; nie einen
+  unsicheren Vorgang ersetzen.
+- `prepare_accounting_review` speichert nur einen 30 Minuten gültigen Entwurf
+  mit Link, falls der Nutzer den Vorschlag selbst in Fin3000 ansehen will. Es
+  ändert nichts, nimmt keinen Token und ist für die Ausführung nicht nötig.
+
+## Private Umsätze und einzelne Transaktionen
+
+- `mark_transactions_private` markiert 1–50 ausgewählte ungebuchte
+  Transaktionen als privat. Nur, wenn der Nutzer die private Natur nennt; nie
+  aus Händler oder Betrag raten. Ohne Buchungsstatus-Filter suchen, damit schon
+  gebuchte Treffer auffallen; ist der Händlername unklar, nachfragen statt ein
+  Stichwort zu raten. Kein Beleg nötig; schon gebuchte Zeilen
+  entfernt das Werkzeug nicht (dafür `unbook_bookings`/`reverse_bookings`).
+  Manuell: Vorschau mit allen Ausschlüssen und Notizen, ausdrückliches Ja,
+  identische `items` mit Token. Autorisierte Modi nur mit passender Freigabe.
+- Ein ausdrücklich gemischter Stapel aus geschäftlich und privat läuft als
+  Ganzes über `book_transactions`; nie unter derselben `proposal_id` aufteilen.
+- `prepare_booking_review` speichert nur einen 30-Minuten-Vorschlag
+  (`proposal_id`, `review_url`) für `book`/`mark_private`, ohne Wirkung und
+  ohne Token. Die `proposal_id` unverändert an `book_transactions` bzw.
+  `mark_transactions_private` geben (dann ohne `request_id`); Wiederaufnahme dann über
+  `get_booking_context(status_request={review_kind: transaction_booking,
+  proposal_id})`. Der Link ist optional.
+- `categorize_transaction` setzt das Konto einer einzelnen ungebuchten
+  Banktransaktion mit gültigem Beleg (`account_number` im Kontenrahmen der
+  Firma): Vorschau, Ja, identisch mit Token. `apply_to_client=true` speichert
+  einen Kundenstandard (Offenlegung wie oben). Ohne Beleg stattdessen
+  `get_booking_context` und `book_transactions` mit ausdrücklicher
+  Transaktionsbasis; nie einen Beleg erfinden.
+
+## Freigabe widerrufen
+
+`revoke_bookkeeping_authorization` mit `business_unit_id` und
+`authorization_id` aus `get_bookkeeping_authorizations`. Vorher sagen: Der
+Widerruf stoppt noch offene gedeckte Aktionen, macht Gebuchtes nicht rückgängig
+und entfernt keinen gespeicherten Kundenstandard; er ist endgültig. Vorschau,
+einmal bestätigen, gleiche Parameter mit `confirmation_token`.
+
+## Anlagen und AfA
+
+- `list_fixed_assets` mit `business_unit_id` liest Anlagen und gespeicherte
+  Anlagenbefunde; ohne `asset_id` allen Cursorn folgen. Ob die Buchhaltung
+  vollständig ist, zeigt erst `check_bookkeeping`.
+- `save_fixed_asset` legt eine Anlage an oder ändert sie (`asset_id`), auch den
+  Abgang (`status=disposed`, `disposal_date`, `disposal_proceeds`). Nur echte
+  Anschaffungsdaten aus Beleg oder Nutzer (Datum, Kosten, `source_invoice`; die
+  Rechnung wie in `fin3000-belege` suchen, mit `date_state=any` und bei
+  Ownerberechtigung `include_unassigned=true`) und
+  ein vorhandenes Anlagenkonto (`asset_account`, UUID aus der Kontensuche).
+  Nutzungsdauer, Methode, betriebliche Nutzung, Sonderabschreibung oder
+  Investitionsabzugsbetrag nie schätzen, sondern erfragen; Fin3000 gibt dazu
+  Hinweise, die Entscheidung trifft der Nutzer.
+- Verbindungsmodus wie bei `create_booking`: mit `confirm_writes=false` direkt
+  mit stabiler `request_id`, sonst bzw. mit `execution_mode=manual` Vorschau,
+  Ja, identisch mit Token. Bei unklarem Ausgang dieselbe `request_id` bzw.
+  denselben Token wiederholen, keine zweite Anlage anlegen.
 
 ## Fehler, Prüfung und Aufgaben
 

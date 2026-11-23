@@ -23,6 +23,7 @@ EXPECTED_SKILLS = (
     "fin3000-kunden",
     "fin3000-monatsabschluss",
     "fin3000-rechnungen",
+    "fin3000-steuererklaerungen",
 )
 FIXED_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 
