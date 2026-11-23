@@ -1,21 +1,25 @@
 # Fin3000 AI Plugins
 
 Independent distribution source for the Fin3000 OpenAI/Codex and Claude Code
-plugins. The Fin3000 workspace `AGENTS.md` applies when this repository is
-worked on inside that workspace.
+plugins. The Fin3000 workspace rules apply when this repository is worked on
+inside that workspace.
 
 - Work in a `feature/*` Git worktree; `main` is MR-only.
 - Before edits run the workspace `scripts/changed-files.sh` once for all
   intended paths. Repository name: `tools/fin3000-ai-plugins`.
-- Keep the four `skills/*/SKILL.md` files host-neutral and byte-identical in
+- Keep the `skills/*/SKILL.md` files host-neutral and byte-identical in
   both generated archives.
 - Keep platform metadata separate: `.codex-plugin/`, `.codex-plugin/mcp.json` (packaged as
   `.mcp.json`, the published ChatGPT MCP endpoint) and `agents/openai.yaml` are OpenAI-only; `.claude-plugin/` and `.mcp.json` are Claude-only.
 - Never store OAuth tokens, API tokens, client secrets or customer data here.
   The only MCP endpoint is `https://api.fin3000.com/mcp`; authentication is
   negotiated by the host through the server's OAuth discovery.
-- Run `python3 -m unittest tests.test_build_plugin_archives`, build both
-  archives, validate the Claude plugin with `claude plugin validate . --strict`
+- Commit only Markdown, text, JSON, YAML and PNG files. The Anthropic plugin
+  directory refuses scripts, package lists, `AGENTS.md`/`CLAUDE.md` and SVG
+  files; the package builder lives in the backend repository under
+  `scripts/build_plugin_archives.py`.
+- Run the builder tests in the backend repository, build both archives with
+  `--source-dir` pointing at this checkout, validate the Claude plugin with `claude plugin validate . --strict`
   and finish with `git diff --check`.
 - Do not publish, upload, create a marketplace, push or release without the
   user's explicit approval. Generated ZIP files belong in ignored `dist/`.

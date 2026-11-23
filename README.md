@@ -101,15 +101,21 @@ uploaded to each AI host independently.
 .mcp.json                          Claude remote-MCP configuration
 skills/*/SKILL.md                  shared host-neutral workflows
 skills/*/agents/openai.yaml        OpenAI-only presentation metadata
-scripts/build_plugin_archives.py   deterministic package builder
-tests/test_build_plugin_archives.py
 ```
 
 ### Build and verify
 
+The Anthropic plugin directory refuses repositories of unverified
+organizations that contain scripts. This repository therefore holds only
+Markdown, JSON, YAML and PNG files: no `.py`, no `AGENTS.md`, no SVG. The
+deterministic package builder and its tests live in the Fin3000 backend
+repository under `scripts/build_plugin_archives.py`.
+
 ```bash
-python3 -m unittest tests.test_build_plugin_archives
-python3 scripts/build_plugin_archives.py
+# in the backend repository
+python3 -m unittest scripts/tests/test_build_plugin_archives.py
+python3 scripts/build_plugin_archives.py --source-dir <this checkout>
+# in this repository
 claude plugin validate .claude-plugin/plugin.json --strict
 claude plugin validate . --strict
 unzip -t dist/fin3000-plugin-source.zip
@@ -119,7 +125,7 @@ sha256sum dist/fin3000-plugin-source.zip dist/fin3000-claude-plugin-source.zip
 
 The builder uses fixed timestamps, file modes and ordering, so repeated builds
 from the same commit are byte-identical. It fails closed if a skill is
-missing, manifest versions differ, the Codex name is not the OpenAI app ID, the manifest icon is missing or
+folder is incomplete, manifest versions differ, the Codex name is not the OpenAI app ID, the manifest icon is missing or
 not a PNG, or the Claude MCP configuration contains anything other than the
 Fin3000 HTTPS endpoint. Every file the Claude manifest references ships in the
 Claude archive.

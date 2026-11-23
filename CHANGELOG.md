@@ -4,6 +4,10 @@ All notable changes to the Fin3000 AI plugin packages are documented here.
 
 ## [Unreleased]
 
+### Removed
+
+- Package builder, its tests, `AGENTS.md` and the SVG icon. The Anthropic plugin directory refuses repositories of unverified organizations that contain scripts, agent instruction files or SVG images. The builder moved to the Fin3000 backend repository (`scripts/build_plugin_archives.py --source-dir <checkout>`); the contributor rules are now in `CONTRIBUTING.md`. Version 1.1.2 for both packages.
+
 ### Changed
 
 - Claude listing (`.claude-plugin/plugin.json`, `marketplace.json`) is German first with the full English text after „· English:“, as required by the Anthropic directory review. The OpenAI/Codex manifest stays German; its long description now matches the German control promise.
