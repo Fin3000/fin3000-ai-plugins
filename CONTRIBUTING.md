@@ -7,7 +7,7 @@ inside that workspace.
 - Work in a `feature/*` Git worktree; `main` is MR-only.
 - Before edits run the workspace `scripts/changed-files.sh` once for all
   intended paths. Repository name: `tools/fin3000-ai-plugins`.
-- Keep the `skills/*/SKILL.md` files host-neutral and byte-identical in
+- Keep all `skills/*/SKILL.md` files host-neutral and byte-identical in
   both generated archives.
 - Keep platform metadata separate: `.codex-plugin/`, `.codex-plugin/mcp.json` (packaged as
   `.mcp.json`, the published ChatGPT MCP endpoint) and `agents/openai.yaml` are OpenAI-only; `.claude-plugin/` and `.mcp.json` are Claude-only.

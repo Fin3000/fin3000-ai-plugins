@@ -56,6 +56,8 @@ keine Vollständigkeit aus einer einzelnen Suchseite ableiten.
   `needs_booking`.
 - Ein Statusabruf übermittelt keine UStVA. Behaupte niemals ELSTER-/DATEV-
   Versand, Festschreibung, Periodenabschluss oder steuerliche Prüfung.
+- Will der Nutzer die Umsatzsteuer-Voranmeldung vorbereiten oder lokal prüfen
+  lassen, wechsle zu `fin3000-steuererklaerungen`.
 - Fehlende Daten sind kein Beleg dafür, dass der Sachverhalt erledigt ist.
 
 ## Wenn etwas nicht klappt
