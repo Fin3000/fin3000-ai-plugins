@@ -1,8 +1,8 @@
-# Fin3000 für Claude und Codex
+# Fin3000 für Claude
 
 **Claude macht deine Buchhaltung – du gibst nur frei.** Belege suchen,
-Kontoauszüge abgleichen, Buchungen nachtragen: Fin3000 verbindet Claude und
-Codex per OAuth mit deiner Buchhaltung, gemacht für Selbstständige,
+Kontoauszüge abgleichen, Buchungen nachtragen: Fin3000 verbindet Claude
+per OAuth mit deiner Buchhaltung, gemacht für Selbstständige,
 Freelancer, GbR, UG und GmbH in Deutschland.
 
 Sag einfach „Mach meine Buchhaltung für Oktober“: Claude ordnet Belege den
@@ -33,9 +33,6 @@ claude plugin install fin3000@fin3000-plugins
 
 Danach `/reload-plugins`. Beim ersten Fin3000-Aufruf öffnet sich die
 Anmeldung; erscheint sie nicht, `/mcp` → `fin3000` → Authenticate.
-
-**Codex:** Plugin `fin3000` aus dem OpenAI-Paket installieren, danach
-dieselbe OAuth-Anmeldung.
 
 **Erste Frage:** „Welche Kundenrechnungen sind überfällig?“ Claude antwortet
 mit Kunde, Betrag, Fälligkeit und einem Link in deine Fin3000-Daten.
@@ -84,28 +81,23 @@ Trenne die Verbindung zusätzlich in Fin3000 unter Sicherheit
 
 ## For maintainers
 
-This repository is the distribution source for the Fin3000 plugins for
-OpenAI/Codex and Claude Code. Both packages use the same nine host-neutral
-skills and connect to the OAuth-protected remote MCP endpoint
+This repository is the Fin3000 plugin for Claude Code. Its nine skills are
+host-neutral and connect to the OAuth-protected remote MCP endpoint
 `https://api.fin3000.com/mcp`. The production MCP server lives in the Fin3000
-backend repository under `src/mcp_server`; these sources are packaged and
-uploaded to each AI host independently.
+backend repository under `src/mcp_server`.
 
 ### Layout
 
 ```text
-.codex-plugin/plugin.json          OpenAI/Codex manifest
-.codex-plugin/mcp.json             OpenAI MCP declaration, packaged as .mcp.json
 .claude-plugin/plugin.json         Claude Code manifest incl. directory fields
 .claude-plugin/marketplace.json    Claude Code marketplace catalog
 .claude-plugin/icon.png            512px directory icon (copy of the app icon)
 .mcp.json                          Claude remote-MCP configuration
-skills/*/SKILL.md                  shared host-neutral workflows
-skills/*/agents/openai.yaml        OpenAI-only presentation metadata
+skills/*/SKILL.md                  host-neutral workflows
 ```
 
 ### Build and verify
 
-This repository holds only Markdown, JSON, YAML and PNG files. Packaging,
+This repository holds only Markdown, JSON and PNG files. Packaging,
 validation and directory submission are maintained in the Fin3000 backend
 repository.
