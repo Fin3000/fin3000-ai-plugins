@@ -2,6 +2,12 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
+## [1.2.4] - 2026-11-24
+
+### Removed
+
+- OpenAI/Codex metadata (`.codex-plugin/` and `skills/*/agents/openai.yaml`). The Anthropic plugin directory treats the whole repository as the Claude plugin and flagged the OpenAI manifest, which referenced an image path outside the plugin. The OpenAI metadata now lives in the Fin3000 backend repository next to the package builder; the skills are unchanged. Version 1.2.4.
+
 ## [1.2.3] - 2026-11-24
 
 ### Changed
