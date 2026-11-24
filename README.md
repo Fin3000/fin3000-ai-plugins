@@ -7,10 +7,11 @@ Freelancer, GbR, UG und GmbH in Deutschland.
 
 Sag einfach „Mach meine Buchhaltung für Oktober“: Claude ordnet Belege den
 Kontobewegungen zu, schlägt die Kontierung nach SKR03 oder SKR04 vor und
-bucht, sobald du zustimmst. Offene Posten, überfällige Kunden, BWA und
-UStVA-Status hast du mit einer Frage im Blick, Rechnungsentwürfe entstehen in
-Sekunden. Jede Änderung zeigt dir Claude vorher; Zahlungen, Rechnungsversand
-und Steuerübermittlung bleiben bei dir. Mehrere Firmen bleiben sauber
+bucht in den Bereichen, die du freigegeben hast. Offene Posten, überfällige
+Kunden, BWA und UStVA-Status hast du mit einer Frage im Blick,
+Rechnungsentwürfe entstehen in Sekunden. Du legst fest, welche Bereiche
+Claude ändern darf, und kannst jederzeit zuerst eine Vorschau verlangen;
+Zahlungen, Rechnungsversand und Steuerübermittlung bleiben bei dir. Mehrere Firmen bleiben sauber
 getrennt, und der DATEV-Export für deine Steuerkanzlei ist eingebaut.
 
 ## Schnellstart

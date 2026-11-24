@@ -2,6 +2,12 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
+## [1.2.3] - 2026-11-24
+
+### Changed
+
+- README describes the write behaviour accurately: Claude books in the areas the user allowed and shows a preview whenever the user asks for one (direct execution since backend 0.51.x), instead of promising a preview for every change. Version 1.2.3 for both packages.
+
 ## [1.2.2] - 2026-11-24
 
 ### Changed
