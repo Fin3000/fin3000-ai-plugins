@@ -2,6 +2,12 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
+## [1.2.5] - 2026-11-24
+
+### Changed
+
+- Directory policy: removed the `$schema` key from the Claude manifest (not a plugins-reference field) and the icon file name from the README layout table. Version 1.2.5.
+
 ## [1.2.4] - 2026-11-24
 
 ### Removed

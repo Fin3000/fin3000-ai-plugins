@@ -91,7 +91,6 @@ backend repository under `src/mcp_server`.
 ```text
 .claude-plugin/plugin.json         Claude Code manifest incl. directory fields
 .claude-plugin/marketplace.json    Claude Code marketplace catalog
-.claude-plugin/icon.png            512px directory icon (copy of the app icon)
 .mcp.json                          Claude remote-MCP configuration
 skills/*/SKILL.md                  host-neutral workflows
 ```
