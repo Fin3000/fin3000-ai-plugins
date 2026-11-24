@@ -10,8 +10,7 @@ Kontobewegungen zu, schlägt die Kontierung nach SKR03 oder SKR04 vor und
 bucht, sobald du zustimmst. Offene Posten, überfällige Kunden, BWA und
 UStVA-Status hast du mit einer Frage im Blick, Rechnungsentwürfe entstehen in
 Sekunden. Jede Änderung zeigt dir Claude vorher; Zahlungen, Rechnungsversand
-und Steuerübermittlung bleiben bei dir. Deine Buchhaltungsdaten liegen
-ausschließlich in deutschen Rechenzentren, mehrere Firmen bleiben sauber
+und Steuerübermittlung bleiben bei dir. Mehrere Firmen bleiben sauber
 getrennt, und der DATEV-Export für deine Steuerkanzlei ist eingebaut.
 
 ## Schnellstart
@@ -106,31 +105,6 @@ skills/*/agents/openai.yaml        OpenAI-only presentation metadata
 
 ### Build and verify
 
-The Anthropic plugin directory refuses repositories of unverified
-organizations that contain scripts. This repository therefore holds only
-Markdown, JSON, YAML and PNG files: no `.py`, no `AGENTS.md`, no SVG. The
-deterministic package builder and its tests live in the Fin3000 backend
-repository under `scripts/build_plugin_archives.py`.
-
-```bash
-# in the backend repository
-python3 -m unittest scripts/tests/test_build_plugin_archives.py
-python3 scripts/build_plugin_archives.py --source-dir <this checkout>
-# in this repository
-claude plugin validate .claude-plugin/plugin.json --strict
-claude plugin validate . --strict
-unzip -t dist/fin3000-plugin-source.zip
-unzip -t dist/fin3000-claude-plugin-source.zip
-sha256sum dist/fin3000-plugin-source.zip dist/fin3000-claude-plugin-source.zip
-```
-
-The builder uses fixed timestamps, file modes and ordering, so repeated builds
-from the same commit are byte-identical. It fails closed if a skill is
-folder is incomplete, manifest versions differ, the Codex name is not the OpenAI app ID, the manifest icon is missing or
-not a PNG, or the Claude MCP configuration contains anything other than the
-Fin3000 HTTPS endpoint. Every file the Claude manifest references ships in the
-Claude archive.
-
-Uploading, directory submission and legal acceptance are separate manual
-release steps; see `docs/runbooks/anthropic-connector-submission.md` in the
-backend repository.
+This repository holds only Markdown, JSON, YAML and PNG files. Packaging,
+validation and directory submission are maintained in the Fin3000 backend
+repository.

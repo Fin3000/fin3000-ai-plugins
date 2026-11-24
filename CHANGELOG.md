@@ -2,11 +2,17 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
+## [1.2.2] - 2026-11-24
+
+### Changed
+
+- Directory policy: removed the claim about where bookkeeping data is stored from the README and the OpenAI listing, and removed the build-script file names and commands from `README.md` and `CONTRIBUTING.md`. Version 1.2.2 for both packages.
+
 ## [1.2.1] - 2026-11-23
 
 ### Removed
 
-- Package builder, its tests, `AGENTS.md` and the SVG icon. The Anthropic plugin directory refuses repositories of unverified organizations that contain scripts, agent instruction files or SVG images. The builder moved to the Fin3000 backend repository (`scripts/build_plugin_archives.py --source-dir <checkout>`); the contributor rules are now in `CONTRIBUTING.md`. Version 1.2.1 for both packages.
+- Package builder, its tests, `AGENTS.md` and the SVG icon. The Anthropic plugin directory refuses repositories of unverified organizations that contain scripts, agent instruction files or SVG images. The builder moved to the Fin3000 backend repository; the contributor rules are now in `CONTRIBUTING.md`. Version 1.2.1 for both packages.
 
 ## [1.2.0] - 2026-11-23
 
