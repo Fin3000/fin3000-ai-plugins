@@ -1,7 +1,7 @@
 {
   "name": "fin3000",
   "displayName": "Fin3000",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Buchhaltung für Selbstständige, Freelancer, GbR, UG und GmbH: Belege zuordnen, buchen, Rechnungen schreiben und offene Punkte klären. · English: Bookkeeping for sole traders, freelancers and small companies in Germany: match receipts, book transactions, draft invoices and clear open items.",
   "author": {
     "name": "Ideal3000 GmbH",
@@ -12,7 +12,6 @@
   "supportUrl": "https://fin3000.com/kontakt/",
   "privacyPolicyUrl": "https://fin3000.com/datenschutz/",
   "termsOfServiceUrl": "https://fin3000.com/agb/",
-  "icon": "./.claude-plugin/icon.png",
   "repository": "https://github.com/Fin3000/fin3000-ai-plugins",
   "license": "Apache-2.0",
   "keywords": [
