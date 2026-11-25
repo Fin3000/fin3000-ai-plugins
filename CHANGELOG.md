@@ -2,6 +2,12 @@
 
 All notable changes to the Fin3000 AI plugin packages are documented here.
 
+## [1.2.6] - 2026-11-25
+
+### Removed
+
+- Directory policy: the PNG icon and the `icon` manifest field. The plugin ships no image or font files. Version 1.2.6.
+
 ## [1.2.5] - 2026-11-24
 
 ### Changed
